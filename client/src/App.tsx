@@ -1,3 +1,31 @@
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+import RootLayout from "./layout/root-layout";
+import { lazy, Suspense } from "react";
+const Home = lazy(() => import("./pages/home"));
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<RootLayout />}>
+      <Route index element={<Home />} />
+    </Route>
+  )
+);
+
 export default function App() {
-  return <div className="bg-zinc-800"></div>;
+  return (
+    <Suspense
+      fallback={
+        <div className="w-full h-screen flex items-center justify-center">
+          <h1 className="text-2xl text-gray-700">Loading...</h1>
+        </div>
+      }
+    >
+      <RouterProvider router={router} />
+    </Suspense>
+  );
 }
