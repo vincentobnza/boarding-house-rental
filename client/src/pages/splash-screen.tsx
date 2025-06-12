@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { MapPinHouse } from "lucide-react";
 import BackgroundImage from "@/assets/homepage_image.jpg";
+import { Link } from "react-router-dom";
 
 export default function SplashScreen() {
   return (
@@ -20,7 +21,9 @@ export default function SplashScreen() {
           Ranking and Filtering (RRF) in San Jose, Occidental Mindoro
         </p>
 
-        <Button size="lg">Continue</Button>
+        <Button size="lg" asChild>
+          <Link to="/home">Get Started</Link>
+        </Button>
       </div>
     </div>
   );
