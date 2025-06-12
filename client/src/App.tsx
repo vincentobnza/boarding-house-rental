@@ -6,12 +6,12 @@ import {
 } from "react-router-dom";
 import RootLayout from "./layout/root-layout";
 import { lazy, Suspense } from "react";
-const Home = lazy(() => import("./pages/home"));
+const SplashScreen = lazy(() => import("./pages/splash-screen"));
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
-      <Route index element={<Home />} />
+      <Route index element={<SplashScreen />} />
     </Route>
   )
 );

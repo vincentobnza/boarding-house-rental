@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 * {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Outfit", sans-serif;
 }
 
 @theme inline {
