@@ -7,7 +7,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export default function NavbarDropdown() {
+export default function NavbarDropdown({
+  setIsOpen,
+}: {
+  setIsOpen: (isOpen: boolean) => void;
+}) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -20,7 +24,9 @@ export default function NavbarDropdown() {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56 z-[9999]" align="end">
-        <DropdownMenuItem>Login</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setIsOpen(true)}>
+          Login
+        </DropdownMenuItem>
         <DropdownMenuItem>Signup</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>Help Center</DropdownMenuItem>

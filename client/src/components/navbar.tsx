@@ -1,7 +1,14 @@
 import { Link } from "react-router-dom";
 import NavbarDropdown from "./navbar-dropdown";
+import AuthModal from "./auth-modal";
+import { useState } from "react";
 
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
+
+  const handleOpenChange = (isOpen: boolean) => {
+    setOpen(isOpen);
+  };
   return (
     <nav className="w-full max-w-screen-2xl mx-auto p-9 flex items-center justify-between border-b border-zinc-300">
       <h1 className="text-lg font-bold">SMART SEARCH</h1>
@@ -12,7 +19,8 @@ export default function Navbar() {
             Ready to Smart Search?
           </Link>
         </li>
-        <NavbarDropdown />
+        <NavbarDropdown setIsOpen={setOpen} />
+        <AuthModal open={open} handleOpenChange={handleOpenChange} />
       </ul>
     </nav>
   );
