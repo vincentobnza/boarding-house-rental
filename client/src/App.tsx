@@ -6,8 +6,8 @@ import {
 } from "react-router-dom";
 import RootLayout from "./layout/root-layout";
 import { lazy, Suspense } from "react";
-const SplashScreen = lazy(() => import("./pages/splash-screen"));
-const Homepage = lazy(() => import("./pages/homepage"));
+const SplashScreen = lazy(() => import("./pages/user/splash-screen"));
+const Homepage = lazy(() => import("./pages/user/homepage"));
 
 const router = createBrowserRouter(
   createRoutesFromElements(
