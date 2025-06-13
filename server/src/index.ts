@@ -41,7 +41,6 @@ app.use(
 );
 
 app.use("/api/users", usersRouter);
-
 connectDB();
 
 app.listen(PORT, async () => {
