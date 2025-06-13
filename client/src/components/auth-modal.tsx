@@ -40,7 +40,6 @@ export default function AuthModal(props: {
           </TabsContent>
           <TabsContent value="signup">
             <form className="flex flex-col gap-4">
-              <Input type="text" placeholder="Full Name" required />
               <Input type="email" placeholder="Email" required />
               <Input type="password" placeholder="Password" required />
               <Input type="password" placeholder="Confirm Password" required />
