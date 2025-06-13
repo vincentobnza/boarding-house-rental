@@ -6,9 +6,9 @@ export default function Pending() {
       </h4>
       <h1 className="text-4xl font-bold mb-4">We're evaluating your profile</h1>
       <p className="text-zinc-700 mb-10">
-        You currently have no pending applications.
+        In order to make sure our community holds up a standard, we don't allow
+        any profile to get in
       </p>
-
       <img
         src="https://cdn-icons-gif.flaticon.com/11677/11677478.gif"
         alt="pending approval"

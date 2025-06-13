@@ -1,6 +1,7 @@
-import Pending from "./pending";
-
 export default function Dashboard() {
-  const isRegisteredLandlord = false;
-  return <div className="w-full">{!isRegisteredLandlord && <Pending />}</div>;
+  return (
+    <div className="w-full">
+      <h1>LISTING</h1>
+    </div>
+  );
 }

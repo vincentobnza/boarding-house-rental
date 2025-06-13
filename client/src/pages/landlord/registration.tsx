@@ -27,7 +27,6 @@ export default function Registration() {
       <div className="max-w-4xl mx-auto px-4 py-8">
         <Form />
       </div>
-
       <Footer />
     </div>
   );
