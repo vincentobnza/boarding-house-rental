@@ -6,7 +6,20 @@ import {
   Home,
   Clock,
   MoreVertical,
+  Trash,
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+} from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export default function Dashboard() {
   const isThereAnyListing = true;
@@ -128,13 +141,7 @@ const ListingCard = ({
                   <span className="text-sm ">{type}</span>
                 </div>
               </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-8 w-8 p-0 text-gray-700 hover:text-gray-900"
-              >
-                <MoreVertical className="w-4 h-4" />
-              </Button>
+              <DeleteListingDropdown />
             </div>
 
             <div className="flex items-start gap-2 text-gray-600">
@@ -159,5 +166,45 @@ const ListingCard = ({
         </div>
       </div>
     </div>
+  );
+};
+
+const DeleteListingDropdown = () => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-8 w-8 p-0 text-gray-700 hover:text-gray-900"
+        >
+          <MoreVertical className="w-4 h-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <Button variant="ghost" size="sm" className="w-full rounded">
+          <Trash />
+          Delete Apartment
+        </Button>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+const DeleteListindModal = () => {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline">Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DialogClose>
+          <Button type="submit">Save changes</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
