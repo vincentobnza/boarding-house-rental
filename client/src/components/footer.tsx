@@ -30,7 +30,7 @@ export default function Footer() {
         </ul>
       </div>
 
-      <div className="w-full border-t border-zinc-300 px-8 py-4">
+      <div className="w-full border-t border-zinc-300 px-9 py-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-4">
             <p className="text-sm text-gray-600">

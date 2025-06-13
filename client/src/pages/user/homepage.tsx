@@ -3,7 +3,6 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useCurrentPosition } from "@/hooks/useCurrentPosition";
 import { Icon } from "leaflet";
-
 export default function Homepage() {
   const position = useCurrentPosition();
 
@@ -12,7 +11,6 @@ export default function Homepage() {
     iconSize: [50, 50],
     iconAnchor: [16, 32],
   });
-
   return (
     <section className="w-full min-h-[80vh] flex flex-col md:flex-row">
       <div className="w-full md:w-1/2 p-6 md:p-10 flex justify-center flex-col gap-4">

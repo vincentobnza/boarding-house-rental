@@ -22,7 +22,7 @@ export default function SplashScreen() {
         </p>
 
         <Button size="lg" asChild>
-          <Link to="/home">Get Started</Link>
+          <Link to="/home?type=user">Get Started</Link>
         </Button>
       </div>
     </div>
