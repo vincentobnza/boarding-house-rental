@@ -56,7 +56,13 @@ export default function LandlordLogin() {
               required
             />
           </div>
-          <Button type="submit" className="w-full h-12 bg-zinc-900 rounded-lg">
+          <Button
+            type="submit"
+            onClick={() => {
+              window.location.href = "/landlord/dashboard"; // Redirect to dashboard on successful login
+            }}
+            className="w-full h-12 bg-zinc-900 rounded-lg"
+          >
             Login
           </Button>
 
