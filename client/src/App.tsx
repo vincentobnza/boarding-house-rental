@@ -15,6 +15,11 @@ const LandlordLogin = lazy(() => import("./pages/landlord/login"));
 const LandlordSignup = lazy(() => import("./pages/landlord/signup"));
 const LandlordLayout = lazy(() => import("./layout/landlord-layout"));
 const LandlordDashboard = lazy(() => import("./pages/landlord/dashboard"));
+
+// query client
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./lib/query-client";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -27,7 +32,6 @@ const router = createBrowserRouter(
       <Route path="/landlord" element={<LandlordHome />} />
       <Route path="/landlord/login" element={<LandlordLogin />} />
       <Route path="/landlord/signup" element={<LandlordSignup />} />
-
       <Route path="/landlord/dashboard" element={<LandlordLayout />}>
         <Route index element={<LandlordDashboard />} />
       </Route>
@@ -38,7 +42,9 @@ const router = createBrowserRouter(
 export default function App() {
   return (
     <Suspense fallback={<LoadingScreen />}>
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </Suspense>
   );
 }

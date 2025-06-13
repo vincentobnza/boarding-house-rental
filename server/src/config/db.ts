@@ -15,7 +15,6 @@ export const connectDB = async () => {
     }
 
     // PULL REQUEST
-
     console.log("Attempting to connect to MongoDB...");
     const conn = await mongoose.connect(mongoURI, {
       serverSelectionTimeoutMS: 30000,
