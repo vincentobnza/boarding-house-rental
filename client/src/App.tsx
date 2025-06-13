@@ -14,10 +14,13 @@ const Onboarding = lazy(() => import("./pages/onboarding"));
 const LandlordLogin = lazy(() => import("./pages/landlord/login"));
 const LandlordSignup = lazy(() => import("./pages/landlord/signup"));
 const LandlordLayout = lazy(() => import("./layout/landlord-layout"));
-const LandlordDashboard = lazy(() => import("./pages/landlord/dashboard"));
+const LandlordDashboard = lazy(
+  () => import("./pages/landlord/listings/dashboard")
+);
 const LandlordRegistration = lazy(
   () => import("./pages/landlord/registration")
 );
+const LandlordInbox = lazy(() => import("./pages/landlord/inbox/chat"));
 
 // query client
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -39,7 +42,8 @@ const router = createBrowserRouter(
 
       {/* LANDLORD DASHBOARD */}
       <Route path="/landlord/dashboard" element={<LandlordLayout />}>
-        <Route index element={<LandlordDashboard />} />
+        <Route path="listings" element={<LandlordDashboard />} />
+        <Route path="inbox" element={<LandlordInbox />} />
       </Route>
     </>
   )

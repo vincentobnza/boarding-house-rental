@@ -16,7 +16,9 @@ export default function Dashboard() {
             alt="No Listings"
             className="size-24 mb-4"
           />
-          <h1 className="text-md">Ohh no! You don't have any listings yet.</h1>
+          <h1 className="text-md">
+            Looks like you don't have any listings yet.
+          </h1>
 
           <Button
             className="mt-12 h-10 shadow-none rounded"
