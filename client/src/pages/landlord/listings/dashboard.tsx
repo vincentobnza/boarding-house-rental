@@ -34,7 +34,7 @@ export default function Dashboard() {
               <Button
                 size="icon"
                 className="rounded shadow-none outline-none"
-                variant={viewMode === "list" ? "default" : "ghost"}
+                variant={viewMode === "list" ? "secondary" : "ghost"}
                 onClick={() => setViewMode("list")}
               >
                 <List className="w-4 h-4" />
@@ -42,7 +42,7 @@ export default function Dashboard() {
               <Button
                 size="icon"
                 className="rounded shadow-none outline-none"
-                variant={viewMode === "grid" ? "default" : "ghost"}
+                variant={viewMode === "grid" ? "secondary" : "ghost"}
                 onClick={() => setViewMode("grid")}
               >
                 <Grid3x3 className="w-4 h-4" />
