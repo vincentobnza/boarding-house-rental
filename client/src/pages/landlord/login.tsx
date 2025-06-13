@@ -27,7 +27,8 @@ export default function LandlordLogin() {
           className="bg-white rounded-lg shadow-md p-8 w-full flex flex-col gap-6 z-10"
         >
           <div className="px-4 mx-auto text-center">
-            <p className="font-bold text-2xl mb-4">LANDLORD LOGIN</p>
+            <h2 className="font-bold text-2xl mb-4">LANDLORD LOGIN</h2>
+            <p>Please enter your credentials to access your account.</p>
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="email" className="font-medium">
@@ -60,7 +61,7 @@ export default function LandlordLogin() {
           </Button>
 
           <p className="text-sm text-center text-zinc-600">
-            Don't have an account?
+            Already have an account?
             <span>
               <Link
                 to="/landlord/signup"

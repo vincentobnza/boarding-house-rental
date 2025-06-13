@@ -12,8 +12,9 @@ const Homepage = lazy(() => import("./pages/tenant/homepage"));
 const LandlordHome = lazy(() => import("./pages/landlord/home"));
 const Onboarding = lazy(() => import("./pages/onboarding"));
 const LandlordLogin = lazy(() => import("./pages/landlord/login"));
-import LandlordSignup from "./pages/landlord/signup";
-
+const LandlordSignup = lazy(() => import("./pages/landlord/signup"));
+const LandlordLayout = lazy(() => import("./layout/landlord-layout"));
+const LandlordDashboard = lazy(() => import("./pages/landlord/dashboard"));
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -22,9 +23,14 @@ const router = createBrowserRouter(
       <Route path="/tenant" element={<RootLayout />}>
         <Route index element={<Homepage />} />
       </Route>
+      {/* LANDLORD PAGES */}
       <Route path="/landlord" element={<LandlordHome />} />
       <Route path="/landlord/login" element={<LandlordLogin />} />
       <Route path="/landlord/signup" element={<LandlordSignup />} />
+
+      <Route path="/landlord/dashboard" element={<LandlordLayout />}>
+        <Route index element={<LandlordDashboard />} />
+      </Route>
     </>
   )
 );

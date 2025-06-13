@@ -66,7 +66,7 @@ export default function LandlordSignup() {
             Don't have an account?
             <span>
               <Link
-                to="/landlord/register"
+                to="/landlord/login"
                 className="text-zinc-900 underline ml-1 font-bold"
               >
                 Register here
