@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { House, Mail, Ellipsis } from "lucide-react";
+import { House, Mail, BanknoteArrowUp } from "lucide-react";
 import Footer from "@/components/footer";
 
 export default function LandlordLayout() {
@@ -37,9 +37,10 @@ const Nav = () => {
       hasChip: true,
     },
     {
-      name: "Menu",
+      name: "Inquirer",
       link: "/landlord/dashboard/menu",
-      icon: <Ellipsis className="size-4" />,
+      icon: <BanknoteArrowUp className="size-4" />,
+      hasChip: true,
     },
   ];
   return (

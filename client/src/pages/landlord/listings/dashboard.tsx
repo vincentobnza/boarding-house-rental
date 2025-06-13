@@ -30,7 +30,7 @@ export default function Dashboard() {
             {/* 
             view mode buttons
              */}
-            <div className="p-1 border border-zinc-200 flex items-center gap-2 rounded-lg bg-white">
+            <div className="p-1 border border-zinc-200 flex items-center gap-1 rounded-lg bg-white">
               <Button
                 size="icon"
                 className="rounded shadow-none outline-none"
