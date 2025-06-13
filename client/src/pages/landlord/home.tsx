@@ -1,4 +1,4 @@
-import BackgroundImage from "@/assets/homepage_image.jpg";
+import BackgroundImage from "@/assets/landlord_image.jpeg";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -22,10 +22,6 @@ export default function Home() {
 
         <Button size="lg" asChild className="bg-zinc-900">
           <Link to="/home?type=user">Login your Account</Link>
-        </Button>
-        <p>OR</p>
-        <Button size="lg" variant="link" asChild>
-          <Link to="/home?type=user">Register an Account</Link>
         </Button>
       </div>
     </div>
