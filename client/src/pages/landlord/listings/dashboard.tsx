@@ -7,28 +7,59 @@ import {
   Clock,
   MoreVertical,
   Trash,
+  List,
+  Grid3x3,
 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { useState } from "react";
 
 export default function Dashboard() {
+  const [viewMode, setViewMode] = useState<"list" | "grid">("list");
   const isThereAnyListing = true;
   return (
     <div className="w-full max-w-screen-xl mx-auto">
       {isThereAnyListing ? (
         <div className="w-full h-full flex flex-col justify-start items-start p-8">
-          <h1 className="text-2xl font-medium">Your Listings</h1>
-          <div className="w-full grid gap-6 mt-10">
+          <div className="w-full flex justify-between items-center">
+            <h1 className="text-2xl font-medium">Your Listings</h1>
+
+            {/* 
+            view mode buttons
+             */}
+            <div className="p-1 border border-zinc-200 flex items-center gap-2 rounded-lg bg-white">
+              <Button
+                size="icon"
+                className="rounded shadow-none outline-none"
+                variant={viewMode === "list" ? "default" : "ghost"}
+                onClick={() => setViewMode("list")}
+              >
+                <List className="w-4 h-4" />
+              </Button>
+              <Button
+                size="icon"
+                className="rounded shadow-none outline-none"
+                variant={viewMode === "grid" ? "default" : "ghost"}
+                onClick={() => setViewMode("grid")}
+              >
+                <Grid3x3 className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+          <div
+            className={`w-full mt-10 transition-all duration-500 ${
+              viewMode === "grid"
+                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                : "flex flex-col gap-6"
+            }`}
+            key={viewMode}
+            style={{
+              animation: "fadeIn 0.5s",
+            }}
+          >
             {dummyListings.map((listing, index) => (
               <ListingCard
                 key={index}
@@ -37,6 +68,7 @@ export default function Dashboard() {
                 type={listing.type}
                 description={listing.description}
                 pending={listing.pending}
+                viewMode={viewMode}
               />
             ))}
           </div>
@@ -99,6 +131,7 @@ type ListingCardProps = {
   type: string;
   description: string;
   pending?: boolean;
+  viewMode?: "list" | "grid";
 };
 
 const ListingCard = ({
@@ -107,11 +140,25 @@ const ListingCard = ({
   type,
   description,
   pending = false,
+  viewMode = "list",
 }: ListingCardProps) => {
   return (
-    <div className="w-full bg-white rounded-xl border border-zinc-200 overflow-hidden group">
-      <div className="flex gap-0">
-        <div className="relative w-80 h-56 flex-shrink-0 overflow-hidden">
+    <div
+      className={`bg-white rounded-lg border border-zinc-200 overflow-hidden group transition-all duration-500 ${
+        viewMode === "grid" ? "w-full" : "w-full"
+      }`}
+      style={{
+        boxShadow:
+          viewMode === "grid" ? "0 4px 24px 0 rgba(0,0,0,0.04)" : undefined,
+        transform: viewMode === "grid" ? undefined : undefined,
+      }}
+    >
+      <div className={`${viewMode === "grid" ? "" : "flex gap-0"}`}>
+        <div
+          className={`relative ${
+            viewMode === "grid" ? "w-full h-48" : "w-80 h-56 flex-shrink-0"
+          } overflow-hidden`}
+        >
           <img
             src={image}
             alt={location}
@@ -125,11 +172,13 @@ const ListingCard = ({
               </span>
             </div>
           )}
-
           {pending && <div className="absolute inset-0 bg-white/80"></div>}
         </div>
-
-        <div className="flex-1 p-6 flex flex-col justify-between">
+        <div
+          className={`flex-1 p-6 flex flex-col justify-between ${
+            viewMode === "grid" ? "" : ""
+          }`}
+        >
           <div className="space-y-3">
             <div className="flex items-start justify-between">
               <div className="space-y-1">
@@ -188,23 +237,5 @@ const DeleteListingDropdown = () => {
         </Button>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
-};
-
-const DeleteListindModal = () => {
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">Open Dialog</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
-          <Button type="submit">Save changes</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
   );
 };
