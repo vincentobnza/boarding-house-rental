@@ -10,6 +10,7 @@ import {
 } from "chart.js";
 import type { ChartOptions } from "chart.js";
 import { Bar, Pie } from "react-chartjs-2";
+import { Users, Clock, AlertTriangle, UserPlus } from "lucide-react"; // Use lucide-react icons
 
 ChartJS.register(
   CategoryScale,
@@ -78,10 +79,26 @@ export default function AdminDashboard() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <DashboardCard title="Total Landlords" value="1200" />
-        <DashboardCard title="Pending Listings" value="85" />
-        <DashboardCard title="Total Reports" value="45" />
-        <DashboardCard title="New Signups" value="230" />
+        <DashboardCard
+          title="Total Landlords"
+          value="1200"
+          icon={<Users className="text-indigo-600 w-6 h-6" />}
+        />
+        <DashboardCard
+          title="Pending Listings"
+          value="85"
+          icon={<Clock className="text-orange-500 w-6 h-6" />}
+        />
+        <DashboardCard
+          title="Total Reports"
+          value="45"
+          icon={<AlertTriangle className="text-red-500 w-6 h-6" />}
+        />
+        <DashboardCard
+          title="New Signups"
+          value="230"
+          icon={<UserPlus className="text-green-500 w-6 h-6" />}
+        />
       </div>
 
       {/* Charts side by side */}
@@ -106,14 +123,19 @@ export default function AdminDashboard() {
 function DashboardCard({
   title,
   value,
+  icon,
 }: {
   title: string;
   value: string | number;
+  icon: React.ReactNode;
 }) {
   return (
-    <div className="bg-white p-4 rounded-lg border border-zinc-200 shadow-sm">
-      <h4 className="text-sm text-zinc-500">{title}</h4>
-      <p className="text-xl font-semibold text-zinc-800">{value}</p>
+    <div className="bg-white p-4 rounded-lg border border-zinc-200 shadow-sm flex items-center gap-4">
+      <div>{icon}</div>
+      <div>
+        <h4 className="text-sm text-zinc-500">{title}</h4>
+        <p className="text-xl font-semibold text-zinc-800">{value}</p>
+      </div>
     </div>
   );
 }

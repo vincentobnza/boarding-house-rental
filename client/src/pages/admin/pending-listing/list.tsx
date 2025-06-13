@@ -26,6 +26,30 @@ export default function PendingListings() {
       image:
         "https://i.pinimg.com/236x/62/c9/84/62c984784dba3437226cadc8e6f62306.jpg",
     },
+    {
+      id: 3,
+      fullName: "Maria L. Reyes",
+      address: "Zone 2, Mabini Street",
+      beds: 3,
+      image:
+        "https://i.pinimg.com/236x/62/c9/84/62c984784dba3437226cadc8e6f62306.jpg",
+    },
+    {
+      id: 4,
+      fullName: "Maria L. Reyes",
+      address: "Zone 2, Mabini Street",
+      beds: 3,
+      image:
+        "https://i.pinimg.com/236x/62/c9/84/62c984784dba3437226cadc8e6f62306.jpg",
+    },
+    {
+      id: 5,
+      fullName: "Maria L. Reyes",
+      address: "Zone 2, Mabini Street",
+      beds: 3,
+      image:
+        "https://i.pinimg.com/236x/62/c9/84/62c984784dba3437226cadc8e6f62306.jpg",
+    },
   ];
 
   return (

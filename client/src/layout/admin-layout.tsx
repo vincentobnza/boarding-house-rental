@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
   Hourglass,
@@ -6,8 +6,20 @@ import {
   FileWarning,
 } from "lucide-react";
 import Footer from "@/components/footer";
+import { useState, useEffect } from "react";
 
 export default function AdminLayout() {
+  // Move pendingCount to state
+  const [pendingCount, setPendingCount] = useState(5);
+  const location = useLocation();
+
+  // Hide badge when on Pending Listings page
+  useEffect(() => {
+    if (location.pathname === "/admin/dashboard/pending-list") {
+      setPendingCount(0);
+    }
+  }, [location.pathname]);
+
   return (
     <div className="flex min-h-screen w-full">
       {/* Sidebar */}
@@ -15,7 +27,7 @@ export default function AdminLayout() {
         <div className="h-18 px-6 py-4 border-b border-zinc-200 flex items-center justify-between">
           <h1 className="text-xl font-bold">ADMIN PANEL</h1>
         </div>
-        <SidebarNav />
+        <SidebarNav pendingCount={pendingCount} />
       </aside>
 
       {/* Main Content */}
@@ -35,7 +47,7 @@ export default function AdminLayout() {
   );
 }
 
-const SidebarNav = () => {
+const SidebarNav = ({ pendingCount }: { pendingCount: number }) => {
   const navItems = [
     {
       name: "Dashboard",
@@ -46,6 +58,7 @@ const SidebarNav = () => {
       name: "Pending Listings",
       link: "/admin/dashboard/pending-list",
       icon: <Hourglass className="size-5" />,
+      badge: pendingCount,
     },
     {
       name: "Registered Landlords",
@@ -75,7 +88,14 @@ const SidebarNav = () => {
           }
         >
           {item.icon}
-          <span>{item.name}</span>
+          <span className="flex items-center gap-2">
+            {item.name}
+            {item.badge !== undefined && item.badge > 0 && (
+              <span className="ml-2 inline-flex items-center justify-center px-2 py-0.5 text-xs font-medium bg-red-500 text-white rounded-full">
+                {item.badge}
+              </span>
+            )}
+          </span>
         </NavLink>
       ))}
     </nav>
