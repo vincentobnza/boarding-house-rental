@@ -21,8 +21,15 @@ export default function Home() {
         </p>
 
         <Button size="lg" asChild className="bg-zinc-900">
-          <Link to="/home?type=user">Login your Account</Link>
+          <Link to="/landlord/login">Login your Account</Link>
         </Button>
+
+        <Link
+          to="/onboarding"
+          className="text-lg font-semibold underline text-zinc-900"
+        >
+          Back
+        </Link>
       </div>
     </div>
   );
