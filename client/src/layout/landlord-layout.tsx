@@ -1,24 +1,48 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { House, Mail, Ellipsis } from "lucide-react";
+import { House, Mail, BanknoteArrowUp } from "lucide-react";
 import Footer from "@/components/footer";
+import { ScrollRestoration } from "react-router-dom";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useLocation } from "react-router-dom";
+import NavbarImage from "@/assets/navbar-image.jpg";
 
 export default function LandlordLayout() {
+  const location = useLocation();
+  const shouldShowFooter = location.pathname === "/landlord/dashboard/inbox";
   return (
     <div className="w-full flex flex-col min-h-screen">
-      <nav className="sticky top-0 z-50 w-full bg-white">
-        <header className="w-full h-18 bg-zinc-50 border-b border-zinc-200 flex justify-between items-center px-9">
-          <h3 className="text-sm">SMART SEARCH</h3>
-          <h1 className="text-2xl font-bold">RENTAL OWNER</h1>
-          <div>Owner</div>
+      <nav className="sticky top-0 z-[99999] w-full bg-white">
+        <header className="relative w-full p-3 bg-zinc-50 border-b border-zinc-200 flex justify-between items-center px-9 overflow-hidden">
+          <img
+            src={NavbarImage}
+            alt="image"
+            className="absolute w-full inset-0 object-cover opacity-20"
+          />
+          <h3 className="text-sm font-bold">SMART SEARCH</h3>
+          <div className="flex flex-col justify-center items-center gap-2 text-center">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/6676/6676684.png"
+              alt="owner"
+              className="size-6"
+            />
+            <h1 className="text-xl font-bold">RENTAL OWNER</h1>
+          </div>
+          <ProfileDropdown />
         </header>
         <Nav />
       </nav>
-
       <main className="flex-grow w-full flex flex-col justify-center max-w-screen-2xl mx-auto">
         <Outlet />
       </main>
-
-      <Footer />
+      {!shouldShowFooter && <Footer />}
+      <ScrollRestoration />
     </div>
   );
 }
@@ -37,13 +61,14 @@ const Nav = () => {
       hasChip: true,
     },
     {
-      name: "Menu",
+      name: "Inquirer",
       link: "/landlord/dashboard/menu",
-      icon: <Ellipsis className="size-4" />,
+      icon: <BanknoteArrowUp className="size-4" />,
+      hasChip: true,
     },
   ];
   return (
-    <div className="w-full p-1 border-b border-zinc-200 flex justify-center items-center px-9 gap-6">
+    <div className="w-full p-1 bg-white border-b border-zinc-200 flex justify-center items-center px-9 gap-6">
       {navItems.map((item) => (
         <NavLink
           key={item.name}
@@ -67,5 +92,28 @@ const Nav = () => {
         </NavLink>
       ))}
     </div>
+  );
+};
+
+const ProfileDropdown = () => {
+  return (
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Avatar>
+            <AvatarImage
+              src="https://cdn-icons-png.flaticon.com/128/727/727399.png"
+              alt="@landlord owner"
+            />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56 z-[999999]" align="end">
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem>Logout</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
   );
 };

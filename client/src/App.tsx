@@ -1,12 +1,13 @@
 import {
   createBrowserRouter,
+  RouterProvider,
   createRoutesFromElements,
   Route,
-  RouterProvider,
 } from "react-router-dom";
-import RootLayout from "./layout/root-layout";
-import { lazy, Suspense } from "react";
+import { Suspense } from "react";
 import LoadingScreen from "./components/loading";
+import RootLayout from "./layout/root-layout";
+import { lazy } from "react";
 const SplashScreen = lazy(() => import("./pages/splash-screen"));
 const Homepage = lazy(() => import("./pages/tenant/homepage"));
 
@@ -35,6 +36,7 @@ const AdminPendingListings = lazy(
 // query client
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/query-client";
+import { Toaster } from "@/components/ui/sonner";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -71,6 +73,7 @@ const router = createBrowserRouter(
 export default function App() {
   return (
     <Suspense fallback={<LoadingScreen />}>
+      <Toaster />
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
       </QueryClientProvider>

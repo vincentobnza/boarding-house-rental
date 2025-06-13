@@ -1,31 +1,180 @@
 import { Button } from "@/components/ui/button";
 import {
   Plus,
-  SquarePen,
   MapPin,
   Home,
   Clock,
   MoreVertical,
+  Trash,
+  List,
+  Grid3x3,
+  Pencil,
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+} from "@/components/ui/dropdown-menu";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "motion/react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function Dashboard() {
+  const [viewMode, setViewMode] = useState<"list" | "grid">(() => {
+    const storedViewMode = localStorage.getItem("viewMode") as
+      | "list"
+      | "grid"
+      | null;
+    return storedViewMode || "list";
+  });
+  const [filterStatus, setFilterStatus] = useState<
+    "reviewed" | "pending" | undefined // Changed type
+  >(undefined); // Initialized to undefined
   const isThereAnyListing = true;
+
+  useEffect(() => {
+    localStorage.setItem("viewMode", viewMode);
+  }, [viewMode]);
+
+  // Filter listings based on selected status
+  const filteredListings = dummyListings.filter((listing) => {
+    if (filterStatus === "reviewed") return !listing.pending;
+    if (filterStatus === "pending") return listing.pending;
+    return true; // Handles undefined (all)
+  });
+
   return (
     <div className="w-full max-w-screen-xl mx-auto">
       {isThereAnyListing ? (
         <div className="w-full h-full flex flex-col justify-start items-start p-8">
-          <h1 className="text-2xl font-medium">Your Listings</h1>
-          <div className="w-full grid gap-6 mt-10">
-            {dummyListings.map((listing, index) => (
-              <ListingCard
-                key={index}
-                image={listing.image}
-                location={listing.location}
-                type={listing.type}
-                description={listing.description}
-                pending={listing.pending}
-              />
-            ))}
+          <div className="w-full flex justify-between items-center">
+            <h1 className="text-2xl font-medium">Your Listings</h1>
+            {/* 
+            view mode buttons
+             */}
+            <div className="flex items-center space-x-4">
+              <Select
+                value={filterStatus}
+                onValueChange={(value) => {
+                  if (value === "all") {
+                    setFilterStatus(undefined);
+                  } else {
+                    setFilterStatus(value as "reviewed" | "pending");
+                  }
+                }}
+              >
+                <SelectTrigger className="w-[150px]">
+                  <SelectValue placeholder="Filter by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Status</SelectLabel>
+                    <SelectItem value="all">
+                      <div className="flex items-center gap-2">
+                        <div className="size-2 rounded-full bg-blue-400" />
+                        All Listings
+                      </div>
+                    </SelectItem>{" "}
+                    {/* Added All option */}
+                    <SelectItem value="reviewed">
+                      <div className="flex items-center gap-2">
+                        <div className="size-2 rounded-full bg-emerald-400" />
+                        Reviewed
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="pending">
+                      <div className="flex items-center gap-2">
+                        <div className="size-2 rounded-full bg-amber-400" />
+                        Pending
+                      </div>
+                    </SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+
+              <Link to="/landlord/dashboard/listings/new">
+                <Button className="shadow-none rounded h-11 bg-zinc-700">
+                  <Plus />
+                  Create Listing
+                </Button>
+              </Link>
+              <div className="p-1 border border-zinc-200 flex items-center gap-1 rounded-lg bg-white">
+                <Button
+                  size="icon"
+                  className="rounded shadow-none outline-none"
+                  variant={viewMode === "list" ? "secondary" : "ghost"}
+                  onClick={() => setViewMode("list")}
+                >
+                  <List className="w-4 h-4" />
+                </Button>
+                <Button
+                  size="icon"
+                  className="rounded shadow-none outline-none"
+                  variant={viewMode === "grid" ? "secondary" : "ghost"}
+                  onClick={() => setViewMode("grid")}
+                >
+                  <Grid3x3 className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+          <div className="w-full mt-10">
+            <AnimatePresence mode="wait">
+              {viewMode === "grid" ? (
+                <motion.div
+                  key="grid"
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -40 }}
+                  transition={{ duration: 0.4, ease: "easeInOut" }}
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                >
+                  {filteredListings.map((listing, index) => {
+                    return (
+                      <ListingCard
+                        key={index}
+                        image={listing.image}
+                        location={listing.location}
+                        type={listing.type}
+                        description={listing.description}
+                        pending={listing.pending}
+                        viewMode={viewMode}
+                      />
+                    );
+                  })}
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="list"
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -40 }}
+                  transition={{ duration: 0.4, ease: "easeInOut" }}
+                  className="flex flex-col gap-6"
+                >
+                  {filteredListings.map((listing, index) => (
+                    <ListingCard
+                      key={index}
+                      image={listing.image}
+                      location={listing.location}
+                      type={listing.type}
+                      description={listing.description}
+                      pending={listing.pending}
+                      viewMode={viewMode}
+                    />
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       ) : (
@@ -53,6 +202,7 @@ export default function Dashboard() {
   );
 }
 
+// Rest of the component remains the same...
 const dummyListings = [
   {
     image:
@@ -86,6 +236,7 @@ type ListingCardProps = {
   type: string;
   description: string;
   pending?: boolean;
+  viewMode?: "list" | "grid";
 };
 
 const ListingCard = ({
@@ -94,33 +245,49 @@ const ListingCard = ({
   type,
   description,
   pending = false,
+  viewMode = "list",
 }: ListingCardProps) => {
   return (
-    <div className="w-full bg-white rounded-xl border border-zinc-200 overflow-hidden">
-      <div className="flex gap-0">
-        <div className="relative w-80 h-56 flex-shrink-0">
+    <div
+      className={`bg-white rounded-lg border border-zinc-200 overflow-hidden group transition-all duration-500 ${
+        viewMode === "grid" ? "w-full" : "w-full"
+      }`}
+      style={{
+        boxShadow:
+          viewMode === "grid" ? "0 4px 24px 0 rgba(0,0,0,0.04)" : undefined,
+        transform: viewMode === "grid" ? undefined : undefined,
+      }}
+    >
+      <div className={`${viewMode === "grid" ? "" : "flex gap-0"}`}>
+        <div
+          className={`relative ${
+            viewMode === "grid" ? "w-full h-48" : "w-80 h-56 flex-shrink-0"
+          } overflow-hidden`}
+        >
           <img
             src={image}
             alt={location}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
           />
           {pending && (
             <div className="absolute top-4 left-4 z-10">
-              <span className="inline-flex items-center gap-1 text-xs font-semibold text-amber-800 bg-amber-100 px-3 py-1.5 rounded-full border border-amber-200">
+              <span className="inline-flex items-center gap-2 text-xs font-semibold text-amber-800 bg-amber-100 px-3 py-1.5 rounded-full border border-amber-200">
                 <Clock className="w-3 h-3" />
                 Pending Review
               </span>
             </div>
           )}
-
           {pending && <div className="absolute inset-0 bg-white/80"></div>}
         </div>
-
-        <div className="flex-1 p-6 flex flex-col justify-between">
+        <div
+          className={`flex-1 p-6 flex flex-col justify-between ${
+            viewMode === "grid" ? "" : ""
+          }`}
+        >
           <div className="space-y-3">
             <div className="flex items-start justify-between">
               <div className="space-y-1">
-                <h3 className="text-xl font-semibold text-gray-900 leading-tight">
+                <h3 className="text-xl font-semibold text-gray-900 leading-tight line-clamp-1">
                   {location}
                 </h3>
                 <div className="mt-4 flex items-center gap-2 text-gray-600">
@@ -128,36 +295,46 @@ const ListingCard = ({
                   <span className="text-sm ">{type}</span>
                 </div>
               </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600"
-              >
-                <MoreVertical className="w-4 h-4" />
-              </Button>
+              <DeleteListingDropdown />
             </div>
 
-            <div className="flex items-start gap-2 text-gray-600">
-              <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
-              <p className="text-sm leading-relaxed">{description}</p>
+            <div className="flex items-start gap-2 text-gray-600 mb-8">
+              <MapPin className="w-4 h-4" />
+              <span className="text-sm">{description}</span>
             </div>
-          </div>
 
-          <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-100">
-            <div className="text-sm text-gray-500">
-              Last updated: 2 days ago
-            </div>
             <Button
-              size="sm"
+              className={`h-11 rounded ${viewMode === "grid" ? "w-full" : ""}`}
               variant="outline"
-              className="h-9 px-4 rounded font-medium hover:bg-gray-50 border-gray-200"
             >
-              <SquarePen className="w-4 h-4 mr-2" />
+              <Pencil />
               Edit Property
             </Button>
           </div>
         </div>
       </div>
     </div>
+  );
+};
+
+const DeleteListingDropdown = () => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-8 w-8 p-0 text-gray-700 hover:text-gray-900"
+        >
+          <MoreVertical className="w-4 h-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <Button variant="ghost" size="sm" className="w-full rounded">
+          <Trash />
+          Delete Apartment
+        </Button>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
