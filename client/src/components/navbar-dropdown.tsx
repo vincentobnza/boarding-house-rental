@@ -7,10 +7,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+type TabsValue = "login" | "signup";
+
 export default function NavbarDropdown({
-  setIsOpen,
+  onOpenModal,
 }: {
-  setIsOpen: (isOpen: boolean) => void;
+  onOpenModal: (tab: TabsValue) => void;
 }) {
   return (
     <DropdownMenu>
@@ -24,10 +26,12 @@ export default function NavbarDropdown({
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56 z-[9999]" align="end">
-        <DropdownMenuItem onClick={() => setIsOpen(true)}>
+        <DropdownMenuItem onClick={() => onOpenModal("login")}>
           Login
         </DropdownMenuItem>
-        <DropdownMenuItem>Signup</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => onOpenModal("signup")}>
+          Signup
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>Help Center</DropdownMenuItem>
       </DropdownMenuContent>
