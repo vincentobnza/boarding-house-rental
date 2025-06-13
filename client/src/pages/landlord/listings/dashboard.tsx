@@ -96,17 +96,17 @@ const ListingCard = ({
   pending = false,
 }: ListingCardProps) => {
   return (
-    <div className="w-full bg-white rounded-xl border border-zinc-200 overflow-hidden">
+    <div className="w-full bg-white rounded-xl border border-zinc-200 overflow-hidden group">
       <div className="flex gap-0">
-        <div className="relative w-80 h-56 flex-shrink-0">
+        <div className="relative w-80 h-56 flex-shrink-0 overflow-hidden">
           <img
             src={image}
             alt={location}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
           />
           {pending && (
             <div className="absolute top-4 left-4 z-10">
-              <span className="inline-flex items-center gap-1 text-xs font-semibold text-amber-800 bg-amber-100 px-3 py-1.5 rounded-full border border-amber-200">
+              <span className="inline-flex items-center gap-2 text-xs font-semibold text-amber-800 bg-amber-100 px-3 py-1.5 rounded-full border border-amber-200">
                 <Clock className="w-3 h-3" />
                 Pending Review
               </span>
@@ -131,7 +131,7 @@ const ListingCard = ({
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600"
+                className="h-8 w-8 p-0 text-gray-700 hover:text-gray-900"
               >
                 <MoreVertical className="w-4 h-4" />
               </Button>
