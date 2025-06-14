@@ -51,7 +51,7 @@ export default function Onboarding() {
       <p className="mt-12 text-lg font-bold">
         Authorized User?
         <span className="ml-2 underline text-orange-500">
-          <Link to="/admin-login">Login as Admin</Link>
+          <Link to="/admin/login">Login as Admin</Link>
         </span>
       </p>
     </div>
