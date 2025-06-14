@@ -312,8 +312,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   };
 
   return (
-    <div>
-      <p className="text-sm mb-5">{label}</p>
+    <div className="flex flex-col gap-3">
+      <p className="text-sm">{label}</p>
       <label
         htmlFor={id}
         className={cn(

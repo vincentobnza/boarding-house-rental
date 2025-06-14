@@ -2,6 +2,14 @@ import { NavLink, Outlet } from "react-router-dom";
 import { House, Mail, BanknoteArrowUp } from "lucide-react";
 import Footer from "@/components/footer";
 import { ScrollRestoration } from "react-router-dom";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function LandlordLayout() {
   return (
@@ -10,7 +18,7 @@ export default function LandlordLayout() {
         <header className="w-full h-18 bg-zinc-50 border-b border-zinc-200 flex justify-between items-center px-9">
           <h3 className="text-sm">SMART SEARCH</h3>
           <h1 className="text-2xl font-bold">RENTAL OWNER</h1>
-          <div>Owner</div>
+          <ProfileDropdown />
         </header>
         <Nav />
       </nav>
@@ -18,7 +26,6 @@ export default function LandlordLayout() {
         <Outlet />
       </main>
       <Footer />
-
       <ScrollRestoration />
     </div>
   );
@@ -69,5 +76,28 @@ const Nav = () => {
         </NavLink>
       ))}
     </div>
+  );
+};
+
+const ProfileDropdown = () => {
+  return (
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Avatar>
+            <AvatarImage
+              src="https://cdn-icons-png.flaticon.com/128/727/727399.png"
+              alt="@landlord owner"
+            />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56 z-[999999]" align="end">
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem>Logout</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
   );
 };

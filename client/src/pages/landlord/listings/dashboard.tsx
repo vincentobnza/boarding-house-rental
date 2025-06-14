@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import {
   Plus,
-  SquarePen,
   MapPin,
   Home,
   Clock,
@@ -18,10 +17,30 @@ import {
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function Dashboard() {
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
+  const [filterStatus, setFilterStatus] = useState<
+    "reviewed" | "pending" | undefined // Changed type
+  >(undefined); // Initialized to undefined
   const isThereAnyListing = true;
+
+  // Filter listings based on selected status
+  const filteredListings = dummyListings.filter((listing) => {
+    if (filterStatus === "reviewed") return !listing.pending;
+    if (filterStatus === "pending") return listing.pending;
+    return true; // Handles undefined (all)
+  });
+
   return (
     <div className="w-full max-w-screen-xl mx-auto">
       {isThereAnyListing ? (
@@ -31,7 +50,46 @@ export default function Dashboard() {
             {/* 
             view mode buttons
              */}
-            <div className="flex items-center space-x-8">
+            <div className="flex items-center space-x-4">
+              <Select
+                value={filterStatus}
+                onValueChange={(value) => {
+                  if (value === "all") {
+                    setFilterStatus(undefined);
+                  } else {
+                    setFilterStatus(value as "reviewed" | "pending");
+                  }
+                }}
+              >
+                <SelectTrigger className="w-[150px]">
+                  <SelectValue placeholder="Filter by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Status</SelectLabel>
+                    <SelectItem value="all">
+                      <div className="flex items-center gap-2">
+                        <div className="size-2 rounded-full bg-blue-400" />
+                        All Listings
+                      </div>
+                    </SelectItem>{" "}
+                    {/* Added All option */}
+                    <SelectItem value="reviewed">
+                      <div className="flex items-center gap-2">
+                        <div className="size-2 rounded-full bg-emerald-400" />
+                        Reviewed
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="pending">
+                      <div className="flex items-center gap-2">
+                        <div className="size-2 rounded-full bg-amber-400" />
+                        Pending
+                      </div>
+                    </SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+
               <Link to="/landlord/dashboard/listings/new">
                 <Button className="shadow-none rounded h-11" variant="outline">
                   <Plus />
@@ -69,17 +127,19 @@ export default function Dashboard() {
                   transition={{ duration: 0.4, ease: "easeInOut" }}
                   className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                 >
-                  {dummyListings.map((listing, index) => (
-                    <ListingCard
-                      key={index}
-                      image={listing.image}
-                      location={listing.location}
-                      type={listing.type}
-                      description={listing.description}
-                      pending={listing.pending}
-                      viewMode={viewMode}
-                    />
-                  ))}
+                  {filteredListings.map((listing, index) => {
+                    return (
+                      <ListingCard
+                        key={index}
+                        image={listing.image}
+                        location={listing.location}
+                        type={listing.type}
+                        description={listing.description}
+                        pending={listing.pending}
+                        viewMode={viewMode}
+                      />
+                    );
+                  })}
                 </motion.div>
               ) : (
                 <motion.div
@@ -90,7 +150,7 @@ export default function Dashboard() {
                   transition={{ duration: 0.4, ease: "easeInOut" }}
                   className="flex flex-col gap-6"
                 >
-                  {dummyListings.map((listing, index) => (
+                  {filteredListings.map((listing, index) => (
                     <ListingCard
                       key={index}
                       image={listing.image}
@@ -131,6 +191,7 @@ export default function Dashboard() {
   );
 }
 
+// Rest of the component remains the same...
 const dummyListings = [
   {
     image:
@@ -227,23 +288,9 @@ const ListingCard = ({
             </div>
 
             <div className="flex items-start gap-2 text-gray-600">
-              <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
-              <p className="text-sm leading-relaxed">{description}</p>
+              <MapPin className="w-4 h-4" />
+              <span className="text-sm">{description}</span>
             </div>
-          </div>
-
-          <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-100">
-            <div className="text-sm text-gray-500">
-              Last updated: 2 days ago
-            </div>
-            <Button
-              size="sm"
-              variant="outline"
-              className="h-9 px-4 rounded font-medium hover:bg-gray-50 border-gray-200"
-            >
-              <SquarePen className="w-4 h-4 mr-2" />
-              Edit Property
-            </Button>
           </div>
         </div>
       </div>
