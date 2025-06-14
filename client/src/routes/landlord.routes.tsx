@@ -10,6 +10,9 @@ const LandlordRegistration = lazy(
   () => import("../pages/landlord/registration")
 );
 const LandlordInbox = lazy(() => import("../pages/landlord/inbox/chat"));
+const LandlordListingsNew = lazy(
+  () => import("../pages/landlord/listings/new-listing")
+);
 
 export const landlordRoutes = [
   {
@@ -44,6 +47,7 @@ export const landlordRoutes = [
       //   ACTIONS
       {
         path: "listings/new",
+        element: <LandlordListingsNew />,
       },
     ],
   },
