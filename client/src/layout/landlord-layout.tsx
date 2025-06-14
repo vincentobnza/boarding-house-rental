@@ -10,8 +10,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useLocation } from "react-router-dom";
 
 export default function LandlordLayout() {
+  const location = useLocation();
+  const shouldShowFooter = location.pathname === "/landlord/dashboard/inbox";
   return (
     <div className="w-full flex flex-col min-h-screen">
       <nav className="sticky top-0 z-[99999] w-full bg-white">
@@ -32,7 +35,7 @@ export default function LandlordLayout() {
       <main className="flex-grow w-full flex flex-col justify-center max-w-screen-2xl mx-auto">
         <Outlet />
       </main>
-      <Footer />
+      {!shouldShowFooter && <Footer />}
       <ScrollRestoration />
     </div>
   );
