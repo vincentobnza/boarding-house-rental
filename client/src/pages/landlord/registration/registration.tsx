@@ -11,8 +11,10 @@ import {
   Shield,
   CheckCircle2,
   User,
+  ArrowRight,
 } from "lucide-react";
 import Footer from "@/components/footer";
+import { Link } from "react-router-dom";
 
 const CERTIFICATES = [
   { label: "BPLO Certificate", required: true },
@@ -262,12 +264,17 @@ const Form = () => {
 
       {/* Submit Button */}
       <div className="flex justify-center">
-        <Button
-          type="submit"
-          className="h-12 bg-zinc-700 hover:bg-zinc-700 text-white px-8 py-2 rounded-md transition-colors duration-200"
-        >
-          Submit Registration
-        </Button>
+        <Link to="/landlord/registration/payment">
+          <Button
+            type="submit"
+            className="rounded h-11"
+            variant="outline"
+            size="lg"
+          >
+            Continue
+            <ArrowRight />
+          </Button>
+        </Link>
       </div>
     </div>
   );
