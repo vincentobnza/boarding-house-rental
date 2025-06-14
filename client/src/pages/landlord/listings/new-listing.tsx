@@ -1,4 +1,3 @@
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -8,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, Building, Locate, Search } from "lucide-react";
+import { ArrowLeft, Building, Locate, Plus, Search } from "lucide-react";
 import { Suspense, useEffect, useRef, useState } from "react";
 import LocationPicker from "@/components/location-picker";
 import { Button } from "@/components/ui/button";
@@ -27,6 +26,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Link } from "react-router-dom";
+import TextField from "@/components/shared/text-field";
+import { cn } from "@/lib/utils";
 
 type NominamResult = {
   place_id: number;
@@ -60,6 +61,8 @@ export default function NewListing() {
       <div className="mt-10 w-full max-w-screen-lg mx-auto space-y-6">
         <BasicInformation />
         <LocationInformation />
+        <MediaInformation />
+        <PricingInformation />
       </div>
     </div>
   );
@@ -71,19 +74,18 @@ const BasicInformation = () => {
       <p>
         Basic Information <span className="ml-1 text-red-500">*</span>
       </p>
-
       <form className="mt-8 w-full grid md:grid-cols-2 gap-4">
-        <div className="flex flex-col gap-2">
-          <label htmlFor="title">Title</label>
-          <Input
-            placeholder="Enter a catchy title for your listing"
-            id="title"
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="title">Apartment Type</label>
-          <Input placeholder="e.g., Studio Type, Bed Spacer, ..." id="title" />
-        </div>
+        <TextField
+          label="Apartment Name"
+          placeholder="e.g., Cozy Studio, Modern 1-Bedroom, ..."
+          id="title"
+        />
+        <TextField
+          label="Apartment Type"
+          placeholder="e.g., Studio, 1-Bedroom, 2-Bedroom, ..."
+          id="description"
+          className="h-24"
+        />
         <div className="flex flex-col gap-2 justify-start items-start">
           <label htmlFor="title">Status</label>
           <Select>
@@ -166,18 +168,17 @@ const LocationInformation = () => {
         Location Information <span className="ml-1 text-red-500">*</span>
       </p>
       <form className="mt-8 w-full grid md:grid-cols-2 gap-4">
-        <div className="flex flex-col gap-2">
-          <label htmlFor="title">Address 1</label>
-          <Input placeholder="Street, barangay" id="title" />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="title">Address line 2</label>
-          <Input
-            placeholder="(Optional), Apartment complex, building"
-            id="title"
-          />
-        </div>
-        <div className="flex flex-col gap-2 justify-start items-start md:col-span-2">
+        <TextField
+          label="Address 1"
+          placeholder="e.g., 123 Main St, San Jose, Occidental Mindoro"
+          id="title"
+        />
+        <TextField
+          label="Address 2 (optional)"
+          placeholder="e.g., Unit 456, Building B"
+          id="title"
+        />
+        <div className="mt-8 flex flex-col gap-2 justify-start items-start md:col-span-2">
           <div className="w-full flex flex-col justify-start items-start gap-4">
             <label htmlFor="latlng">Set Latitude / Longitude</label>
 
@@ -264,7 +265,7 @@ const LocationInformation = () => {
             </div>
           )}
 
-          <div className="mt-4 p-4 bg-amber-50 border border-amber-400 rounded">
+          <div className="mt-4 p-6 bg-yellow-50 border border-amber-600 rounded">
             <p className="text-sm text-amber-800">
               <strong>Note:</strong> Please ensure the location is accurate as
               it will be used to help tenants find your property. Double-check
@@ -272,6 +273,127 @@ const LocationInformation = () => {
             </p>
           </div>
         </div>
+      </form>
+    </div>
+  );
+};
+
+interface ImageUploaderProps {
+  onImageUpload: (file: File) => void;
+  label?: string;
+  id: string;
+  className?: string;
+}
+
+const ImageUploader: React.FC<ImageUploaderProps> = ({
+  onImageUpload,
+  label,
+  id,
+  className,
+}) => {
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      onImageUpload(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  return (
+    <div>
+      <p className="text-sm mb-5">{label}</p>
+      <label
+        htmlFor={id}
+        className={cn(
+          "w-full h-90 bg-zinc-50 border border-zinc-200 rounded-lg grid place-items-center cursor-pointer aspect-video relative overflow-hidden",
+          className
+        )}
+      >
+        {imagePreview ? (
+          <img
+            src={imagePreview}
+            alt="Preview"
+            className="object-cover w-full h-full"
+          />
+        ) : (
+          <Plus className="size-6 text-zinc-400" />
+        )}
+        <input
+          type="file"
+          id={id}
+          accept="image/*"
+          className="sr-only"
+          onChange={handleImageChange}
+        />
+      </label>
+    </div>
+  );
+};
+
+const MediaInformation = () => {
+  const handleMainImageUpload = (file: File) => {
+    // Handle main image upload logic
+    console.log("Main image uploaded:", file);
+  };
+
+  const handleAdditionalImageUpload = (file: File, index: number) => {
+    // Handle additional image upload logic
+    console.log(`Additional image ${index + 1} uploaded:`, file);
+  };
+
+  return (
+    <div className="w-full p-6 border border-zinc-200 rounded-xl">
+      <p>
+        Media Information <span className="ml-1 text-red-500">*</span>
+      </p>
+      <form className="mt-5 w-full space-y-4">
+        <ImageUploader
+          id="main-picture"
+          label="Upload Main Picture"
+          onImageUpload={handleMainImageUpload}
+        />
+
+        <p className="text-sm">Upload Additional Pictures</p>
+        <div className="w-full grid md:grid-cols-2 lg:grid-cols-4 gap-3">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <ImageUploader
+              key={index}
+              id={`additional-picture-${index}`}
+              onImageUpload={(file) => handleAdditionalImageUpload(file, index)}
+              className="h-[14rem]"
+            />
+          ))}
+        </div>
+      </form>
+    </div>
+  );
+};
+
+const PricingInformation = () => {
+  return (
+    <div className="w-full p-6 border border-zinc-200 rounded-xl">
+      <p>
+        Pricing Information <span className="ml-1 text-red-500">*</span>
+      </p>
+      <form className="mt-8 w-full grid md:grid-cols-2 gap-4">
+        <TextField
+          label="Monthly Rent"
+          placeholder="e.g., 15000"
+          id="monthly-rent"
+          type="number"
+        />
+        <TextField
+          label="Deposit Amount"
+          placeholder="e.g., "
+          id="monthly-rent"
+          type="number"
+        />
       </form>
     </div>
   );

@@ -1,4 +1,6 @@
-import { lazy } from "react";
+import { lazyWithDelay } from "@/components/lazyWithDelay";
+import LoadingScreen from "@/components/loading";
+import { lazy, Suspense } from "react";
 const LandlordHome = lazy(() => import("../pages/landlord/home"));
 const LandlordLogin = lazy(() => import("../pages/landlord/login"));
 const LandlordSignup = lazy(() => import("../pages/landlord/signup"));
@@ -10,8 +12,14 @@ const LandlordRegistration = lazy(
   () => import("../pages/landlord/registration")
 );
 const LandlordInbox = lazy(() => import("../pages/landlord/inbox/chat"));
-const LandlordListingsNew = lazy(
-  () => import("../pages/landlord/listings/new-listing")
+
+const LandlordListingsNew = lazyWithDelay(
+  () => import("../pages/landlord/listings/new-listing"),
+  2000
+);
+
+const withSuspense = (Component: React.ReactNode) => (
+  <Suspense fallback={<LoadingScreen />}>{Component}</Suspense>
 );
 
 export const landlordRoutes = [
@@ -47,7 +55,7 @@ export const landlordRoutes = [
       //   ACTIONS
       {
         path: "listings/new",
-        element: <LandlordListingsNew />,
+        element: withSuspense(<LandlordListingsNew />),
       },
     ],
   },
