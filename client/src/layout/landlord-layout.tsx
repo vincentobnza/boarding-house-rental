@@ -15,9 +15,16 @@ export default function LandlordLayout() {
   return (
     <div className="w-full flex flex-col min-h-screen">
       <nav className="sticky top-0 z-[99999] w-full bg-white">
-        <header className="w-full h-18 bg-zinc-50 border-b border-zinc-200 flex justify-between items-center px-9">
-          <h3 className="text-sm">SMART SEARCH</h3>
-          <h1 className="text-2xl font-bold">RENTAL OWNER</h1>
+        <header className="w-full p-3 bg-zinc-50 border-b border-zinc-200 flex justify-between items-center px-9">
+          <h3 className="text-sm font-bold">SMART SEARCH</h3>
+          <div className="flex flex-col justify-center items-center gap-2 text-center">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/6676/6676684.png"
+              alt="owner"
+              className="size-6"
+            />
+            <h1 className="text-xl font-bold">RENTAL OWNER</h1>
+          </div>
           <ProfileDropdown />
         </header>
         <Nav />
@@ -52,7 +59,7 @@ const Nav = () => {
     },
   ];
   return (
-    <div className="w-full p-1 border-b border-zinc-200 flex justify-center items-center px-9 gap-6">
+    <div className="w-full p-1 bg-white border-b border-zinc-200 flex justify-center items-center px-9 gap-6">
       {navItems.map((item) => (
         <NavLink
           key={item.name}

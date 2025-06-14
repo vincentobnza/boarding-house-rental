@@ -7,7 +7,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, Building, Locate, Plus, Search } from "lucide-react";
+import {
+  ArrowLeft,
+  Building,
+  SquareCheckBig,
+  Locate,
+  Plus,
+  Search,
+} from "lucide-react";
 import { Suspense, useEffect, useRef, useState } from "react";
 import LocationPicker from "@/components/location-picker";
 import { Button } from "@/components/ui/button";
@@ -48,23 +55,32 @@ export default function NewListing() {
       transition={{ duration: 0.3 }}
       className="w-full max-w-screen-lg mx-auto flex flex-col items-start justify-start p-8"
     >
-      <div className="ml-2 flex justify-start items-start flex-col gap-2">
+      <div className="w-full ml-2 flex justify-start items-start flex-col gap-2">
         <Link to="/landlord/dashboard/listings">
           <Button variant="link" className="mb-8">
             <ArrowLeft />
             Return to Listings
           </Button>
         </Link>
-        <h1 className="text-2xl font-bold">
-          <span>
-            <Building className="size-6 inline mr-2 mb-1 text-green-700" />
-          </span>
-          New Apartment
-        </h1>
-        <p>Create a new apartment listing to attract potential tenants.</p>
+        <div className="w-full flex justify-between items-center">
+          <div className="flex flex-col justify-start items-start gap-4">
+            <h1 className="text-2xl font-bold">
+              <span>
+                <Building className="size-6 inline mr-2 mb-1 text-green-700" />
+              </span>
+              New Apartment
+            </h1>
+            <p>Create a new apartment listing to attract potential tenants.</p>
+          </div>
+
+          <Button className="bg-zinc-700 h-11 px-10 rounded">
+            <SquareCheckBig />
+            Save Listing
+          </Button>
+        </div>
       </div>
 
-      <div className="mt-10 w-full max-w-screen-lg mx-auto space-y-6">
+      <div className="mt-10 w-full max-w-screen-lg flex flex-col justify-center items-center mx-auto space-y-6">
         <BasicInformation />
         <LocationInformation />
         <MediaInformation />

@@ -8,13 +8,14 @@ import {
   Trash,
   List,
   Grid3x3,
+  Pencil,
 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import {
@@ -28,11 +29,21 @@ import {
 } from "@/components/ui/select";
 
 export default function Dashboard() {
-  const [viewMode, setViewMode] = useState<"list" | "grid">("list");
+  const [viewMode, setViewMode] = useState<"list" | "grid">(() => {
+    const storedViewMode = localStorage.getItem("viewMode") as
+      | "list"
+      | "grid"
+      | null;
+    return storedViewMode || "list";
+  });
   const [filterStatus, setFilterStatus] = useState<
     "reviewed" | "pending" | undefined // Changed type
   >(undefined); // Initialized to undefined
   const isThereAnyListing = true;
+
+  useEffect(() => {
+    localStorage.setItem("viewMode", viewMode);
+  }, [viewMode]);
 
   // Filter listings based on selected status
   const filteredListings = dummyListings.filter((listing) => {
@@ -91,7 +102,7 @@ export default function Dashboard() {
               </Select>
 
               <Link to="/landlord/dashboard/listings/new">
-                <Button className="shadow-none rounded h-11" variant="outline">
+                <Button className="shadow-none rounded h-11 bg-zinc-700">
                   <Plus />
                   Create Listing
                 </Button>
@@ -276,7 +287,7 @@ const ListingCard = ({
           <div className="space-y-3">
             <div className="flex items-start justify-between">
               <div className="space-y-1">
-                <h3 className="text-xl font-semibold text-gray-900 leading-tight">
+                <h3 className="text-xl font-semibold text-gray-900 leading-tight line-clamp-1">
                   {location}
                 </h3>
                 <div className="mt-4 flex items-center gap-2 text-gray-600">
@@ -287,10 +298,18 @@ const ListingCard = ({
               <DeleteListingDropdown />
             </div>
 
-            <div className="flex items-start gap-2 text-gray-600">
+            <div className="flex items-start gap-2 text-gray-600 mb-8">
               <MapPin className="w-4 h-4" />
               <span className="text-sm">{description}</span>
             </div>
+
+            <Button
+              className={`h-11 rounded ${viewMode === "grid" ? "w-full" : ""}`}
+              variant="outline"
+            >
+              <Pencil />
+              Edit Property
+            </Button>
           </div>
         </div>
       </div>
