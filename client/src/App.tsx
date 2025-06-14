@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Suspense } from "react";
 import LoadingScreen from "./components/loading";
-import allRoutes from "./routes";
+import allRoutes from "./routes/index.tsx";
 // query client
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/query-client";
