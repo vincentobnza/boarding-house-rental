@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useLocation } from "react-router-dom";
+import NavbarImage from "@/assets/navbar-image.jpg";
 
 export default function LandlordLayout() {
   const location = useLocation();
@@ -18,7 +19,12 @@ export default function LandlordLayout() {
   return (
     <div className="w-full flex flex-col min-h-screen">
       <nav className="sticky top-0 z-[99999] w-full bg-white">
-        <header className="w-full p-3 bg-zinc-50 border-b border-zinc-200 flex justify-between items-center px-9">
+        <header className="relative w-full p-3 bg-zinc-50 border-b border-zinc-200 flex justify-between items-center px-9 overflow-hidden">
+          <img
+            src={NavbarImage}
+            alt="image"
+            className="absolute w-full inset-0 object-cover opacity-20"
+          />
           <h3 className="text-sm font-bold">SMART SEARCH</h3>
           <div className="flex flex-col justify-center items-center gap-2 text-center">
             <img
