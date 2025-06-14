@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { House, Mail, BanknoteArrowUp } from "lucide-react";
 import Footer from "@/components/footer";
+import { ScrollRestoration } from "react-router-dom";
 
 export default function LandlordLayout() {
   return (
@@ -13,12 +14,12 @@ export default function LandlordLayout() {
         </header>
         <Nav />
       </nav>
-
       <main className="flex-grow w-full flex flex-col justify-center max-w-screen-2xl mx-auto">
         <Outlet />
       </main>
-
       <Footer />
+
+      <ScrollRestoration />
     </div>
   );
 }

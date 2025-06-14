@@ -16,6 +16,7 @@ import {
   DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
@@ -26,15 +27,16 @@ export default function Dashboard() {
         <div className="w-full h-full flex flex-col justify-start items-start p-8">
           <div className="w-full flex justify-between items-center">
             <h1 className="text-2xl font-medium">Your Listings</h1>
-
             {/* 
             view mode buttons
              */}
             <div className="flex items-center space-x-8">
-              <Button className="shadow-none rounded h-11" variant="outline">
-                <Plus />
-                Create Listing
-              </Button>
+              <Link to="/landlord/dashboard/listings/new">
+                <Button className="shadow-none rounded h-11" variant="outline">
+                  <Plus />
+                  Create Listing
+                </Button>
+              </Link>
               <div className="p-1 border border-zinc-200 flex items-center gap-1 rounded-lg bg-white">
                 <Button
                   size="icon"
