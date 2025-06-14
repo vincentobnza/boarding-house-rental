@@ -28,6 +28,7 @@ import {
 import { Link } from "react-router-dom";
 import TextField from "@/components/shared/text-field";
 import { cn } from "@/lib/utils";
+import { motion } from "motion/react";
 
 type NominamResult = {
   place_id: number;
@@ -41,7 +42,12 @@ const NOMINATIM_BASE_URL = "https://nominatim.openstreetmap.org/search";
 
 export default function NewListing() {
   return (
-    <div className="w-full max-w-screen-lg mx-auto flex flex-col items-start justify-start p-8">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="w-full max-w-screen-lg mx-auto flex flex-col items-start justify-start p-8"
+    >
       <div className="ml-2 flex justify-start items-start flex-col gap-2">
         <Link to="/landlord/dashboard/listings">
           <Button variant="link" className="mb-8">
@@ -64,7 +70,7 @@ export default function NewListing() {
         <MediaInformation />
         <PricingInformation />
       </div>
-    </div>
+    </motion.div>
   );
 }
 
