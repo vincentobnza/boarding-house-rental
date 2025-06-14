@@ -7,7 +7,7 @@ import {
   MoreVertical,
   Trash,
   List,
-  Grid3x3,
+  Grid3x2,
   Pencil,
 } from "lucide-react";
 import {
@@ -127,7 +127,7 @@ export default function Dashboard() {
                   variant={viewMode === "grid" ? "secondary" : "ghost"}
                   onClick={() => setViewMode("grid")}
                 >
-                  <Grid3x3 className="w-4 h-4" />
+                  <Grid3x2 className="w-4 h-4" />
                 </Button>
               </div>
             </div>
