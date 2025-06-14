@@ -27,11 +27,19 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
+type NominamResult = {
+  place_id: number;
+  display_name: string;
+  lat: string;
+  lon: string;
+  type: string;
+};
+
 const NOMINATIM_BASE_URL = "https://nominatim.openstreetmap.org/search";
 
 export default function NewListing() {
   return (
-    <div className="w-full max-w-screen-xl mx-auto flex flex-col items-start justify-start p-8">
+    <div className="w-full max-w-screen-lg mx-auto flex flex-col items-start justify-start p-8">
       <div className="ml-2 flex flex-col gap-2">
         <h1 className="text-2xl font-bold">
           <span>
@@ -42,7 +50,7 @@ export default function NewListing() {
         <p>Create a new apartment listing to attract potential tenants.</p>
       </div>
 
-      <div className="mt-10 w-full max-w-screen-xl mx-auto space-y-6">
+      <div className="mt-10 w-full max-w-screen-lg mx-auto space-y-6">
         <BasicInformation />
         <LocationInformation />
       </div>
@@ -103,7 +111,7 @@ const LocationInformation = () => {
   const [latlng, setLatlng] = useState<[number, number] | undefined>(undefined);
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
-  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState<NominamResult[]>([]);
   const [selectedStreet, setSelectedStreet] = useState<string | null>(null);
   const searchTimeout = useRef<NodeJS.Timeout | null>(null);
 
@@ -168,7 +176,7 @@ const LocationInformation = () => {
 
             <div className="w-full flex justify-between items-center">
               <Button
-                className="rounded h-11 "
+                className="rounded h-11 text-zinc-600"
                 variant="outline"
                 onClick={(e: React.FormEvent) => {
                   e.preventDefault();
@@ -187,7 +195,7 @@ const LocationInformation = () => {
                     aria-expanded={open}
                     className="w-[400px] h-11 rounded justify-between"
                   >
-                    <span className="truncate pr-2">
+                    <span className="truncate pr-2 text-zinc-500">
                       {selectedStreet
                         ? truncateText(selectedStreet)
                         : "Search Streets"}
@@ -248,6 +256,14 @@ const LocationInformation = () => {
               Selected: {latlng[0].toFixed(6)}, {latlng[1].toFixed(6)}
             </div>
           )}
+
+          <div className="mt-4 p-4 bg-amber-50 border border-amber-400 rounded">
+            <p className="text-sm text-amber-800">
+              <strong>Note:</strong> Please ensure the location is accurate as
+              it will be used to help tenants find your property. Double-check
+              the pin placement on the map matches your actual address.
+            </p>
+          </div>
         </div>
       </form>
     </div>

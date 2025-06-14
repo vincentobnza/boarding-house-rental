@@ -6,7 +6,7 @@ import { ScrollRestoration } from "react-router-dom";
 export default function LandlordLayout() {
   return (
     <div className="w-full flex flex-col min-h-screen">
-      <nav className="sticky top-0 z-50 w-full bg-white">
+      <nav className="sticky top-0 z-[99999] w-full bg-white">
         <header className="w-full h-18 bg-zinc-50 border-b border-zinc-200 flex justify-between items-center px-9">
           <h3 className="text-sm">SMART SEARCH</h3>
           <h1 className="text-2xl font-bold">RENTAL OWNER</h1>

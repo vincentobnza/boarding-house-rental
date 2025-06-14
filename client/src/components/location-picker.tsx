@@ -61,7 +61,7 @@ export default function LocationPicker({
       center={position}
       zoom={15}
       scrollWheelZoom={true}
-      style={{ height: "300px", width: "100%", borderRadius: "12px" }}
+      className="w-full h-[400px] rounded"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
