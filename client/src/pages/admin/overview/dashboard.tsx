@@ -6,16 +6,16 @@ import {
   CircleDollarSign,
 } from "lucide-react"; // Use lucide-react icons
 import {
-  BarChart,
-  PieChart,
-  Bar,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip as RechartsTooltip,
   Legend as RechartsLegend,
-  Pie,
   Cell,
+  PieChart, // Changed from RadialBarChart
+  Pie, // Changed from RadialBar
 } from "recharts";
 import {
   Card,
@@ -43,37 +43,43 @@ const barChartData = [
 const barChartConfig = {
   desktop: {
     label: "New Landlords",
-    color: "hsl(221.2 83.2% 53.3%)", // Changed to a primary blue color
+    color: "hsl(221.2 83.2% 53.3%)",
     icon: Users,
   },
   mobile: {
     label: "Reports Filed",
-    color: "oklch(88.2% 0.059 254.128)", // Changed to a lighter blue color
+    color: "oklch(88.2% 0.059 254.128)",
     icon: AlertTriangle,
   },
 } satisfies ChartConfig;
 
 const pieChartData = [
+  // This will be repurposed for the new bar chart
   { name: "Approved", value: 400, fill: "var(--color-approved)" },
   { name: "Pending", value: 300, fill: "var(--color-pending)" },
   { name: "Rejected", value: 200, fill: "var(--color-rejected)" },
 ];
 
 const pieChartConfig = {
+  // This will be repurposed for the new bar chart
   approved: {
     label: "Approved",
-    color: "hsl(142.1 70.6% 45.3%)", // Emerald green
+    color: "hsl(221.2 83.2% 53.3%)", // Changed from green to blue
     icon: TrendingUp,
   },
   pending: {
     label: "Pending",
-    color: "oklch(90.5% 0.093 164.15)", // Lighter emerald green
+    color: "oklch(88.2% 0.059 254.128)", // Changed from light green to light blue
     icon: Clock,
   },
   rejected: {
     label: "Rejected",
-    color: "hsl(142.1 70.6% 30.3%)", // Darker emerald green
+    color: "hsl(221.2 83.2% 40.3%)", // Changed from dark green to dark blue
     icon: AlertTriangle,
+  },
+  // Add a default configuration for the radial bar
+  default: {
+    color: "hsl(0 0% 50%)", // A neutral color
   },
 } satisfies ChartConfig;
 
@@ -90,7 +96,7 @@ export default function AdminDashboard() {
       </header>
 
       {/* Stats Cards */}
-      <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <DashboardCard
           title="Total Landlords"
           value="1,250"
@@ -118,7 +124,7 @@ export default function AdminDashboard() {
       </section>
 
       {/* Charts Section */}
-      <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <section className="grid grid-cols-1 gap-3 lg:grid-cols-2">
         <Card className="transition-shadow duration-300">
           <CardHeader>
             <CardTitle className="text-xl font-semibold text-gray-700 dark:text-gray-200">
@@ -133,7 +139,7 @@ export default function AdminDashboard() {
               config={barChartConfig}
               className="h-[300px] w-full"
             >
-              <BarChart accessibilityLayer data={barChartData}>
+              <AreaChart accessibilityLayer data={barChartData}>
                 <CartesianGrid vertical={false} />
                 <XAxis
                   dataKey="month"
@@ -147,20 +153,50 @@ export default function AdminDashboard() {
                   cursor={false}
                   content={<ChartTooltipContent hideLabel />}
                 />
+                <defs>
+                  {" "}
+                  {/* Added defs for gradient fill */}
+                  <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
+                    <stop
+                      offset="5%"
+                      stopColor="var(--color-desktop)"
+                      stopOpacity={0.8}
+                    />
+                    <stop
+                      offset="95%"
+                      stopColor="var(--color-desktop)"
+                      stopOpacity={0.1}
+                    />
+                  </linearGradient>
+                  <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
+                    <stop
+                      offset="5%"
+                      stopColor="var(--color-mobile)"
+                      stopOpacity={0.8}
+                    />
+                    <stop
+                      offset="95%"
+                      stopColor="var(--color-mobile)"
+                      stopOpacity={0.1}
+                    />
+                  </linearGradient>
+                </defs>
                 <RechartsLegend content={<ChartLegendContent />} />
-                <Bar
+                <Area
                   dataKey="desktop"
+                  type="natural"
+                  fill="url(#fillDesktop)" // Changed to gradient fill
+                  stroke="var(--color-desktop)"
                   stackId="a"
-                  fill="var(--color-desktop)"
-                  radius={[0, 0, 4, 4]}
                 />
-                <Bar
+                <Area
                   dataKey="mobile"
+                  type="natural"
+                  fill="url(#fillMobile)" // Changed to gradient fill
+                  stroke="var(--color-mobile)"
                   stackId="a"
-                  fill="var(--color-mobile)"
-                  radius={[4, 4, 0, 0]}
                 />
-              </BarChart>
+              </AreaChart>
             </ChartContainer>
           </CardContent>
         </Card>
@@ -174,7 +210,7 @@ export default function AdminDashboard() {
               Breakdown of property listing statuses.
             </CardDescription>
           </CardHeader>
-          <CardContent className="flex items-center justify-center">
+          <CardContent className="flex items-center justify-center pt-6">
             <ChartContainer
               config={pieChartConfig}
               className="mx-auto aspect-square h-[250px]"
@@ -182,17 +218,18 @@ export default function AdminDashboard() {
               <PieChart>
                 <RechartsTooltip
                   cursor={false}
-                  content={<ChartTooltipContent hideLabel />}
+                  content={<ChartTooltipContent hideLabel nameKey="name" />}
                 />
                 <Pie
                   data={pieChartData}
                   dataKey="value"
                   nameKey="name"
                   innerRadius={60}
+                  outerRadius={100}
                   strokeWidth={5}
                 >
-                  {pieChartData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.fill} />
+                  {pieChartData.map((entry) => (
+                    <Cell key={`cell-${entry.name}`} fill={entry.fill} />
                   ))}
                 </Pie>
                 <RechartsLegend
