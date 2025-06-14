@@ -30,23 +30,29 @@ export default function Dashboard() {
             {/* 
             view mode buttons
              */}
-            <div className="p-1 border border-zinc-200 flex items-center gap-1 rounded-lg bg-white">
-              <Button
-                size="icon"
-                className="rounded shadow-none outline-none"
-                variant={viewMode === "list" ? "secondary" : "ghost"}
-                onClick={() => setViewMode("list")}
-              >
-                <List className="w-4 h-4" />
+            <div className="flex items-center space-x-8">
+              <Button className="shadow-none rounded h-11" variant="outline">
+                <Plus />
+                Create Listing
               </Button>
-              <Button
-                size="icon"
-                className="rounded shadow-none outline-none"
-                variant={viewMode === "grid" ? "secondary" : "ghost"}
-                onClick={() => setViewMode("grid")}
-              >
-                <Grid3x3 className="w-4 h-4" />
-              </Button>
+              <div className="p-1 border border-zinc-200 flex items-center gap-1 rounded-lg bg-white">
+                <Button
+                  size="icon"
+                  className="rounded shadow-none outline-none"
+                  variant={viewMode === "list" ? "secondary" : "ghost"}
+                  onClick={() => setViewMode("list")}
+                >
+                  <List className="w-4 h-4" />
+                </Button>
+                <Button
+                  size="icon"
+                  className="rounded shadow-none outline-none"
+                  variant={viewMode === "grid" ? "secondary" : "ghost"}
+                  onClick={() => setViewMode("grid")}
+                >
+                  <Grid3x3 className="w-4 h-4" />
+                </Button>
+              </div>
             </div>
           </div>
           <div
