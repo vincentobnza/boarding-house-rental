@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Building, Locate, Search } from "lucide-react";
+import { ArrowLeft, Building, Locate, Search } from "lucide-react";
 import { Suspense, useEffect, useRef, useState } from "react";
 import LocationPicker from "@/components/location-picker";
 import { Button } from "@/components/ui/button";
@@ -26,6 +26,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Link } from "react-router-dom";
 
 type NominamResult = {
   place_id: number;
@@ -40,7 +41,13 @@ const NOMINATIM_BASE_URL = "https://nominatim.openstreetmap.org/search";
 export default function NewListing() {
   return (
     <div className="w-full max-w-screen-lg mx-auto flex flex-col items-start justify-start p-8">
-      <div className="ml-2 flex flex-col gap-2">
+      <div className="ml-2 flex justify-start items-start flex-col gap-2">
+        <Link to="/landlord/dashboard/listings">
+          <Button variant="link" className="mb-8">
+            <ArrowLeft />
+            Return to Listings
+          </Button>
+        </Link>
         <h1 className="text-2xl font-bold">
           <span>
             <Building className="size-6 inline mr-2 mb-1 text-green-700" />

@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "motion/react";
 
 export default function Dashboard() {
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
@@ -57,28 +58,52 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          <div
-            className={`w-full mt-10 transition-all duration-500 ${
-              viewMode === "grid"
-                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                : "flex flex-col gap-6"
-            }`}
-            key={viewMode}
-            style={{
-              animation: "fadeIn 0.5s",
-            }}
-          >
-            {dummyListings.map((listing, index) => (
-              <ListingCard
-                key={index}
-                image={listing.image}
-                location={listing.location}
-                type={listing.type}
-                description={listing.description}
-                pending={listing.pending}
-                viewMode={viewMode}
-              />
-            ))}
+          <div className="w-full mt-10">
+            <AnimatePresence mode="wait">
+              {viewMode === "grid" ? (
+                <motion.div
+                  key="grid"
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -40 }}
+                  transition={{ duration: 0.4, ease: "easeInOut" }}
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                >
+                  {dummyListings.map((listing, index) => (
+                    <ListingCard
+                      key={index}
+                      image={listing.image}
+                      location={listing.location}
+                      type={listing.type}
+                      description={listing.description}
+                      pending={listing.pending}
+                      viewMode={viewMode}
+                    />
+                  ))}
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="list"
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -40 }}
+                  transition={{ duration: 0.4, ease: "easeInOut" }}
+                  className="flex flex-col gap-6"
+                >
+                  {dummyListings.map((listing, index) => (
+                    <ListingCard
+                      key={index}
+                      image={listing.image}
+                      location={listing.location}
+                      type={listing.type}
+                      description={listing.description}
+                      pending={listing.pending}
+                      viewMode={viewMode}
+                    />
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       ) : (
