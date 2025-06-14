@@ -57,7 +57,12 @@ export default function Dashboard() {
       {isThereAnyListing ? (
         <div className="w-full h-full flex flex-col justify-start items-start p-8">
           <div className="w-full flex justify-between items-center">
-            <h1 className="text-2xl font-medium">Your Listings</h1>
+            <h1 className="text-2xl font-medium">
+              Your Listings
+              {filteredListings.length > 0
+                ? ` (${filteredListings.length})`
+                : ""}
+            </h1>
             {/* 
             view mode buttons
              */}
@@ -228,6 +233,14 @@ const dummyListings = [
     description: "Near school of OMSC",
     pending: true,
   },
+  {
+    image:
+      "https://mir-s3-cdn-cf.behance.net/projects/404/39dcba181036319.651603b0ec063.png",
+    location: "Tagumpay 2, Caminawit San Jose Occidental Mindoro",
+    type: "Studio Apartment",
+    description: "Near school of OMSC",
+    pending: true,
+  },
 ];
 
 type ListingCardProps = {
@@ -271,7 +284,7 @@ const ListingCard = ({
           />
           {pending && (
             <div className="absolute top-4 left-4 z-10">
-              <span className="inline-flex items-center gap-2 text-xs font-semibold text-amber-800 bg-amber-100 px-3 py-1.5 rounded-full border border-amber-200">
+              <span className="inline-flex items-center gap-2 text-xs font-semibold text-amber-800 bg-amber-100 px-3 py-1.5 rounded border border-amber-200">
                 <Clock className="w-3 h-3" />
                 Pending Review
               </span>
