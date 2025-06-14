@@ -51,18 +51,18 @@ const SidebarNav = ({ pendingCount }: { pendingCount: number }) => {
   const navItems = [
     {
       name: "Dashboard",
-      link: "/admin/dashboard/dashboard",
+      link: "/admin/overview/dashboard",
       icon: <LayoutDashboard className="size-5" />,
     },
     {
       name: "Pending Listings",
-      link: "/admin/dashboard/pending-list",
+      link: "/admin/overview/pending-listings",
       icon: <Hourglass className="size-5" />,
       badge: pendingCount,
     },
     {
       name: "Registered Landlords",
-      link: "/admin/registered-landlords",
+      link: "/admin/overview/admin/registered-landlords",
       icon: <BadgeCheck className="size-5" />,
     },
     {

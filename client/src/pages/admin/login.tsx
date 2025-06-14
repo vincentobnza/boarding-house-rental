@@ -58,7 +58,7 @@ export default function LandlordLogin() {
           <Button
             type="submit"
             onClick={() => {
-              window.location.href = "/admin/dashboard"; // Redirect to dashboard on successful login
+              window.location.href = "/admin/overview"; // Redirect to dashboard on successful login
             }}
             className="w-full h-12 bg-zinc-900 rounded-lg"
           >
