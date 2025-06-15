@@ -2,7 +2,9 @@ import { lazy } from "react";
 const RootLayout = lazy(() => import("../layout/root-layout"));
 const Homepage = lazy(() => import("../pages/tenant/homepage"));
 const TenantLayout = lazy(() => import("../layout/tenant-layout"));
-const TenantDashboard = lazy(() => import("../pages/tenant/dashboard"));
+const RentalHouse = lazy(() => import("../pages/tenant/rental-house"));
+const NearSchool = lazy(() => import("../pages/tenant/near-school"));
+const BoardingHouse = lazy(() => import("../pages/tenant/boarding-house"));
 
 export const tenantRoutes = [
   {
@@ -22,7 +24,15 @@ export const tenantRoutes = [
     children: [
       {
         path: "rental-house",
-        element: <TenantDashboard />,
+        element: <RentalHouse />,
+      },
+      {
+        path: "near-school",
+        element: <NearSchool />,
+      },
+      {
+        path: "boarding-house",
+        element: <BoardingHouse />,
       },
     ],
   },
