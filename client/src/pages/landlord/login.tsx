@@ -1,9 +1,8 @@
 import BackgroundImage from "@/assets/landlord_image.jpeg";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
+import TextField from "@/components/shared/text-field";
 
 export default function LandlordLogin() {
   const [email, setEmail] = useState("");
@@ -12,72 +11,80 @@ export default function LandlordLogin() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle login logic here
+    // For now, let's keep the redirect for demonstration
+    window.location.href = "/landlord/dashboard";
   };
 
   return (
-    <div className="w-full min-h-screen bg-zinc-100 flex items-center justify-center relative">
-      <img
-        src={BackgroundImage}
-        alt="Background"
-        className="absolute inset-0 w-full h-full object-cover opacity-20 grayscale"
-      />
-      <div className="w-full max-w-lg mx-auto flex flex-col items-center justify-center gap-8 z-5 p-5">
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white rounded-lg shadow-md p-8 w-full flex flex-col gap-6 z-10"
-        >
-          <div className="px-4 mx-auto text-center">
-            <h2 className="font-bold text-2xl mb-4">LANDLORD LOGIN</h2>
-            <p>Please enter your credentials to access your account.</p>
-          </div>
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="email" className="font-medium">
-              Email
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="password" className="font-medium">
-              Password
-            </Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <Button
-            type="submit"
-            onClick={() => {
-              window.location.href = "/landlord/dashboard"; // Redirect to dashboard on successful login
-            }}
-            className="w-full h-12 bg-zinc-900 rounded-lg"
-          >
-            Login
-          </Button>
+    <div className="flex min-h-screen w-full items-center justify-center bg-zinc-100">
+      <div className="flex h-screen w-full flex-col md:flex-row">
+        {/* Left Side - Image */}
+        <div className="relative hidden w-1/2 items-center justify-center bg-zinc-900 md:flex">
+          <img
+            src={BackgroundImage}
+            alt="Landlord Welcome"
+            className="h-full w-full object-cover grayscale"
+          />
+          {/* OVERLAY */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-transparent opacity-50"></div>
+        </div>
 
-          <p className="text-sm text-center text-zinc-600">
-            Already have an account?
-            <span>
-              <Link
-                to="/landlord/signup"
-                className="text-zinc-900 underline ml-1 font-bold"
+        {/* Right Side - Form */}
+        <div className="flex w-full items-center justify-center p-4 md:w-1/2">
+          <div className="mx-auto flex w-full max-w-md flex-col items-start justify-start gap-8">
+            <form
+              onSubmit={handleSubmit}
+              className="z-10 flex w-full flex-col items-start justify-start gap-6"
+            >
+              <div>
+                <h2 className="mb-4 text-5xl font-bold text-zinc-900">
+                  Sign In
+                </h2>
+                <p className="text-lg text-zinc-600">
+                  Access your dashboard to manage your properties.
+                </p>
+              </div>
+              <div className="flex w-full flex-col gap-2">
+                <TextField
+                  label="Email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  required
+                  className="w-full"
+                />
+                <TextField
+                  label="Password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  required
+                  className="w-full"
+                />
+              </div>
+              <Button
+                type="submit"
+                className="focus:ring-opacity-50 h-12 w-full rounded-lg bg-zinc-900 text-white transition-colors duration-300 ease-in-out hover:bg-zinc-800 focus:ring-2 focus:ring-zinc-500 focus:outline-none"
               >
-                Register here
-              </Link>
-            </span>
-          </p>
-        </form>
+                Login
+              </Button>
+
+              <p className="text-center text-sm text-zinc-600">
+                Don't have an account?
+                <span>
+                  <Link
+                    to="/landlord/signup"
+                    className="ml-1 font-semibold text-zinc-900 underline hover:text-zinc-700"
+                  >
+                    Register here
+                  </Link>
+                </span>
+              </p>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   );
