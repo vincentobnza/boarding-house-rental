@@ -11,6 +11,10 @@ const LandlordDashboard = lazy(
 const LandlordRegistration = lazy(
   () => import("../pages/landlord/registration/registration")
 );
+
+const LandlordRegistrationPayment = lazy(
+  () => import("../pages/landlord/registration/registration-payment")
+);
 const LandlordInbox = lazy(() => import("../pages/landlord/inbox/chat"));
 
 const LandlordListingsNew = lazyWithDelay(
@@ -41,6 +45,7 @@ export const landlordRoutes = [
   },
   {
     path: "/landlord/registration/payment",
+    element: <LandlordRegistrationPayment />,
   },
 
   {
