@@ -73,7 +73,7 @@ export default function NewListing() {
             <p>Create a new apartment listing to attract potential tenants.</p>
           </div>
 
-          <Button className="bg-zinc-700 h-11 px-10 rounded">
+          <Button className="bg-zinc-800 h-11 px-10 rounded">
             <SquareCheckBig />
             Save Listing
           </Button>

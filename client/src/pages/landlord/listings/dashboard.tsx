@@ -107,7 +107,7 @@ export default function Dashboard() {
               </Select>
 
               <Link to="/landlord/dashboard/listings/new">
-                <Button className="shadow-none rounded h-11 bg-zinc-700">
+                <Button className="shadow-none rounded h-11 bg-zinc-800">
                   <Plus />
                   Create Listing
                 </Button>

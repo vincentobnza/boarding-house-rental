@@ -1,22 +1,31 @@
 import TextField from "@/components/shared/text-field";
-import { Copy, Shield } from "lucide-react";
+import { ArrowLeft, Copy, Shield } from "lucide-react";
 import { QRCodeCanvas } from "qrcode.react"; // Added import
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { Button } from "@/components/ui/button";
 import { useState } from "react"; // Added import
+import { ScrollRestoration } from "react-router-dom";
 
 export default function RegistrationPayment() {
   const { isCopied, handleCopy } = useCopyToClipboard();
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 h-full w-full max-w-screen-lg flex flex-col items-center ">
+      <div className="bg-white p-8 h-full w-full max-w-screen-lg flex flex-col items-center relative ">
+        <Button
+          variant="ghost"
+          className="absolute top-6 left-6 rounded"
+          onClick={() => window.history.back()}
+        >
+          <ArrowLeft />
+          Go Back
+        </Button>
         <img
           src="https://cdn-icons-png.flaticon.com/128/726/726488.png"
           alt="payment icon"
           className="size-14 mb-1"
         />
         <h1 className="mt-8 text-2xl font-bold mb-2">Registration Payment</h1>
-        <p className="text-gray-600 mb-5">
+        <p className="text-gray-600 mb-5 text-sm">
           Please complete your payment to finalize your registration.
         </p>
 
@@ -77,12 +86,20 @@ export default function RegistrationPayment() {
               </label>
             </div>
 
-            <Button className="rounded bg-zinc-800 mt-8 " size="lg">
+            <Button
+              onClick={() => {
+                window.location.href = "/landlord/pending";
+              }}
+              className="rounded bg-zinc-800 mt-8 "
+              size="lg"
+            >
               Submit Payment
             </Button>
           </form>
         </div>
       </div>
+
+      <ScrollRestoration />
     </div>
   );
 }

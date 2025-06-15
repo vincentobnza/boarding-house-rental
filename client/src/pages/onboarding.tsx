@@ -8,11 +8,9 @@ export default function Onboarding() {
   const userType = [
     {
       name: "Landlord",
-      icon: "https://cdn-icons-png.flaticon.com/128/11789/11789997.png",
     },
     {
       name: "Tenant",
-      icon: "https://cdn-icons-png.flaticon.com/128/11608/11608210.png",
     },
   ];
   const [selectedUserType, setSelectedUserType] = useState<string | null>(null);
@@ -22,7 +20,7 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="bg-orange-50 w-full min-h-screen flex justify-center items-center flex-col">
+    <div className="bg-white w-full min-h-screen flex justify-center items-center flex-col">
       <h4 className="mb-4 font-semibold">WELCOME</h4>
       <h1 className="text-4xl font-bold">What type of user are you?</h1>
 
@@ -31,7 +29,6 @@ export default function Onboarding() {
           <Card
             key={index}
             name={user.name}
-            icon={user.icon}
             selected={selectedUserType === user.name}
             onClick={() => handleUserTypeSelect(user.name)}
           />
@@ -40,7 +37,7 @@ export default function Onboarding() {
       <Button
         size="lg"
         disabled={!selectedUserType}
-        className="disabled:opacity-20 disabled:cursor-not-allowed"
+        className="disabled:opacity-20 disabled:cursor-not-allowed bg-zinc-800 rounded"
       >
         <Link to={`/${selectedUserType?.toLowerCase()}`}>
           Continue as {selectedUserType}
@@ -50,7 +47,7 @@ export default function Onboarding() {
 
       <p className="mt-12 text-lg font-bold">
         Authorized User?
-        <span className="ml-2 underline text-orange-500">
+        <span className="ml-2 underline text-zinc-900">
           <Link to="/admin/login">Login as Admin</Link>
         </span>
       </p>
@@ -60,23 +57,21 @@ export default function Onboarding() {
 
 type UserType = {
   name: string;
-  icon: string;
   selected?: boolean;
   onClick?: () => void;
 };
 
-const Card = ({ name, icon, selected, onClick }: UserType) => {
+const Card = ({ name, selected, onClick }: UserType) => {
   return (
     <div
       onClick={onClick}
       className={cn(
         "w-full bg-white p-10 flex justify-center items-center flex-col gap-4 rounded-lg border border-zinc-200 cursor-pointer transition-all",
         {
-          "bg-orange-100 border-3 border-orange-500 shadow-lg": selected,
+          "bg-zinc-100 border-3 border-zinc-500": selected,
         }
       )}
     >
-      <img src={icon} alt={name} className="size-24 mb-5" />
       <h1 className="text-xl font-semibold">{name}</h1>
     </div>
   );
