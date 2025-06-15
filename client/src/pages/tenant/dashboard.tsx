@@ -75,11 +75,11 @@ interface RentalHouseCardProps {
 
 const RentalHouseCard = ({ house }: RentalHouseCardProps) => {
   return (
-    <div className="group relative h-90 w-full overflow-hidden rounded-lg bg-black shadow-lg">
+    <div className="group relative h-90 w-full overflow-hidden rounded-lg bg-black shadow-2xl">
       <img
         src={house.image}
         alt="image"
-        className="h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+        className="h-full w-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-125"
       />
 
       {/* favorite icon */}
@@ -87,7 +87,7 @@ const RentalHouseCard = ({ house }: RentalHouseCardProps) => {
         <Heart className="h-5 w-5 text-white" />
       </div>
       {/* overlay */}
-      <div className="bg-opacity-50 absolute inset-0 flex flex-col justify-end bg-gradient-to-b from-transparent to-zinc-950 p-8">
+      <div className="bg-opacity-50 absolute inset-0 flex flex-col justify-end bg-gradient-to-b from-transparent to-black p-8">
         <h1 className="mb-1 text-xl font-bold text-white">{house.name}</h1>
         <p className="mb-8 text-sm text-gray-300">
           <span>
