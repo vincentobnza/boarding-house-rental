@@ -5,7 +5,6 @@ import {
   BadgeCheck,
   FileWarning,
 } from "lucide-react";
-import Footer from "@/components/footer";
 import { useState, useEffect } from "react";
 
 export default function AdminLayout() {
@@ -24,8 +23,8 @@ export default function AdminLayout() {
     <div className="flex min-h-screen w-full">
       {/* Sidebar */}
       <aside className="w-64 bg-white border-r border-zinc-200 flex flex-col">
-        <div className="h-18 px-6 py-4 border-b border-zinc-200 flex items-center justify-between">
-          <h1 className="text-xl font-bold">ADMIN PANEL</h1>
+        <div className="h-18 px-6 py-4 flex items-center justify-between">
+          <h1 className="text-sm ml-2 font-bold">ADMIN PANEL</h1>
         </div>
         <SidebarNav pendingCount={pendingCount} />
       </aside>
@@ -40,8 +39,6 @@ export default function AdminLayout() {
         <main className="flex-grow w-full max-w-screen-2xl mx-auto px-6 py-4">
           <Outlet />
         </main>
-
-        <Footer />
       </div>
     </div>
   );
@@ -73,7 +70,7 @@ const SidebarNav = ({ pendingCount }: { pendingCount: number }) => {
   ];
 
   return (
-    <nav className="flex flex-col p-4 gap-2">
+    <nav className="mt-5 flex flex-col p-4 gap-2">
       {navItems.map((item) => (
         <NavLink
           key={item.name}

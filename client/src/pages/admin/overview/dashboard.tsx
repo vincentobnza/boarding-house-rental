@@ -1,121 +1,208 @@
 import {
-  BarElement,
-  CategoryScale,
-  Chart as ChartJS,
-  Legend,
-  LinearScale,
-  Title,
-  Tooltip,
-  ArcElement,
-} from "chart.js";
-import type { ChartOptions } from "chart.js";
-import { Bar, Pie } from "react-chartjs-2";
-import { Users, Clock, AlertTriangle, UserPlus } from "lucide-react"; // Use lucide-react icons
+  Users,
+  Clock,
+  AlertTriangle,
+  TrendingUp,
+  CircleDollarSign,
+} from "lucide-react"; // Use lucide-react icons
+import {
+  BarChart,
+  PieChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip as RechartsTooltip,
+  Legend as RechartsLegend,
+  Pie,
+  Cell,
+} from "recharts";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  ChartContainer,
+  ChartTooltipContent,
+  ChartLegendContent,
+} from "@/components/ui/chart";
+import type { ChartConfig } from "@/components/ui/chart";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  ArcElement,
-  Title,
-  Tooltip,
-  Legend
-);
+const barChartData = [
+  { month: "January", desktop: 186, mobile: 80 },
+  { month: "February", desktop: 305, mobile: 200 },
+  { month: "March", desktop: 237, mobile: 120 },
+  { month: "April", desktop: 73, mobile: 190 },
+  { month: "May", desktop: 209, mobile: 130 },
+  { month: "June", desktop: 214, mobile: 140 },
+];
+
+const barChartConfig = {
+  desktop: {
+    label: "New Landlords",
+    color: "hsl(221.2 83.2% 53.3%)", // Changed to a primary blue color
+    icon: Users,
+  },
+  mobile: {
+    label: "Reports Filed",
+    color: "oklch(88.2% 0.059 254.128)", // Changed to a lighter blue color
+    icon: AlertTriangle,
+  },
+} satisfies ChartConfig;
+
+const pieChartData = [
+  { name: "Approved", value: 400, fill: "var(--color-approved)" },
+  { name: "Pending", value: 300, fill: "var(--color-pending)" },
+  { name: "Rejected", value: 200, fill: "var(--color-rejected)" },
+];
+
+const pieChartConfig = {
+  approved: {
+    label: "Approved",
+    color: "hsl(142.1 70.6% 45.3%)", // Emerald green
+    icon: TrendingUp,
+  },
+  pending: {
+    label: "Pending",
+    color: "oklch(90.5% 0.093 164.15)", // Lighter emerald green
+    icon: Clock,
+  },
+  rejected: {
+    label: "Rejected",
+    color: "hsl(142.1 70.6% 30.3%)", // Darker emerald green
+    icon: AlertTriangle,
+  },
+} satisfies ChartConfig;
 
 export default function AdminDashboard() {
-  const barData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-    datasets: [
-      {
-        label: "New Landlords",
-        data: [12, 19, 10, 15, 22, 30],
-        backgroundColor: "#4f46e5",
-      },
-      {
-        label: "Reports Filed",
-        data: [5, 9, 3, 6, 8, 4],
-        backgroundColor: "#f97316",
-      },
-    ],
-  };
-
-  const barOptions: ChartOptions<"bar"> = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "bottom",
-      },
-    },
-  };
-
-  const pieData = {
-    labels: ["Approved", "Pending", "Rejected"],
-    datasets: [
-      {
-        label: "Listing Status",
-        data: [65, 25, 10],
-        backgroundColor: ["#22c55e", "#f97316", "#ef4444"],
-        borderWidth: 1,
-      },
-    ],
-  };
-
-  const pieOptions: ChartOptions<"pie"> = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "bottom",
-      },
-    },
-  };
-
   return (
-    <div className="space-y-6">
-      {/* Heading */}
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Admin Dashboard</h2>
-        <p className="text-sm text-zinc-500">Overview for the past 6 months</p>
-      </div>
+    <div className="flex flex-col gap-8 p-4 md:p-8">
+      <header className="flex items-center justify-between">
+        <h1 className="text-xl font-bold text-gray-800 dark:text-white">
+          Admin Dashboard
+        </h1>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Welcome back, Admin!
+        </p>
+      </header>
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Stats Cards */}
+      <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <DashboardCard
           title="Total Landlords"
-          value="1200"
-          icon={<Users className="text-indigo-600 w-6 h-6" />}
+          value="1,250"
+          icon={<Users className="size-5 text-blue-500" />}
+          description="Registered landlords"
         />
         <DashboardCard
           title="Pending Listings"
-          value="85"
-          icon={<Clock className="text-orange-500 w-6 h-6" />}
+          value="75"
+          icon={<Clock className="size-5 text-yellow-500" />}
+          description="Listings awaiting approval"
         />
         <DashboardCard
-          title="Total Reports"
-          value="45"
-          icon={<AlertTriangle className="text-red-500 w-6 h-6" />}
+          title="Active Subscriptions"
+          value="850"
+          icon={<CircleDollarSign className="size-5 text-green-500" />}
+          description="Currently active plans"
         />
         <DashboardCard
-          title="New Signups"
-          value="230"
-          icon={<UserPlus className="text-green-500 w-6 h-6" />}
+          title="Open Reports"
+          value="12"
+          icon={<AlertTriangle className="size-5 text-red-500" />}
+          description="Unresolved user reports"
         />
-      </div>
+      </section>
 
-      {/* Charts side by side */}
-      <div className="flex flex-col lg:flex-row gap-6">
-        {/* Pie Chart */}
-        <div className="flex-1 bg-white p-6 rounded-xl border border-zinc-200 shadow-sm">
-          <h3 className="text-lg font-semibold mb-4">
-            Listing Status Breakdown
-          </h3>
-          <Pie data={pieData} options={pieOptions} />
-        </div>
-        {/* Bar Chart */}
-        <div className="flex-1 bg-white p-6 rounded-xl border border-zinc-200 shadow-sm">
-          <h3 className="text-lg font-semibold mb-4">Activity Summary</h3>
-          <Bar data={barData} options={barOptions} />
-        </div>
-      </div>
+      {/* Charts Section */}
+      <section className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <Card className="transition-shadow duration-300">
+          <CardHeader>
+            <CardTitle className="text-xl font-semibold text-gray-700 dark:text-gray-200">
+              Monthly Activity
+            </CardTitle>
+            <CardDescription className="text-sm text-gray-500 dark:text-gray-400">
+              New landlords and reports filed in the last 6 months.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer
+              config={barChartConfig}
+              className="h-[300px] w-full"
+            >
+              <BarChart accessibilityLayer data={barChartData}>
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey="month"
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
+                  tickFormatter={(value) => value.slice(0, 3)}
+                />
+                <YAxis />
+                <RechartsTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel />}
+                />
+                <RechartsLegend content={<ChartLegendContent />} />
+                <Bar
+                  dataKey="desktop"
+                  stackId="a"
+                  fill="var(--color-desktop)"
+                  radius={[0, 0, 4, 4]}
+                />
+                <Bar
+                  dataKey="mobile"
+                  stackId="a"
+                  fill="var(--color-mobile)"
+                  radius={[4, 4, 0, 0]}
+                />
+              </BarChart>
+            </ChartContainer>
+          </CardContent>
+        </Card>
+
+        <Card className="transition-shadow duration-300">
+          <CardHeader>
+            <CardTitle className="text-xl font-semibold text-gray-700 dark:text-gray-200">
+              Listing Status
+            </CardTitle>
+            <CardDescription className="text-sm text-gray-500 dark:text-gray-400">
+              Breakdown of property listing statuses.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex items-center justify-center">
+            <ChartContainer
+              config={pieChartConfig}
+              className="mx-auto aspect-square h-[250px]"
+            >
+              <PieChart>
+                <RechartsTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel />}
+                />
+                <Pie
+                  data={pieChartData}
+                  dataKey="value"
+                  nameKey="name"
+                  innerRadius={60}
+                  strokeWidth={5}
+                >
+                  {pieChartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.fill} />
+                  ))}
+                </Pie>
+                <RechartsLegend
+                  content={<ChartLegendContent nameKey="name" />}
+                />
+              </PieChart>
+            </ChartContainer>
+          </CardContent>
+        </Card>
+      </section>
     </div>
   );
 }
@@ -124,18 +211,31 @@ function DashboardCard({
   title,
   value,
   icon,
+  description,
 }: {
   title: string;
   value: string | number;
   icon: React.ReactNode;
+  description?: string;
 }) {
   return (
-    <div className="bg-white p-4 rounded-lg border border-zinc-200 shadow-sm flex items-center gap-4">
-      <div>{icon}</div>
-      <div>
-        <h4 className="text-sm text-zinc-500">{title}</h4>
-        <p className="text-xl font-semibold text-zinc-800">{value}</p>
-      </div>
-    </div>
+    <Card className="border border-zinc-200 duration-300">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0">
+        <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-300">
+          {title}
+        </CardTitle>
+        {icon}
+      </CardHeader>
+      <CardContent>
+        <div className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
+          {value}
+        </div>
+        {description && (
+          <p className="text-xs text-gray-500 dark:text-gray-400 pt-1">
+            {description}
+          </p>
+        )}
+      </CardContent>
+    </Card>
   );
 }
