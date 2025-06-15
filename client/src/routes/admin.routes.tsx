@@ -1,9 +1,14 @@
 import { lazy } from "react";
 
-import AdminLayout from "@/layout/admin-layout";
-
+const AdminLayout = lazy(() => import("@/layout/admin-layout"));
 const AdminDashboard = lazy(() => import("@/pages/admin/overview/dashboard"));
-import PendingListings from "@/pages/admin/pending-listing/list";
+const PendingListings = lazy(
+  () => import("@/pages/admin/pending-listing/page"),
+);
+const RegisteredLandlord = lazy(
+  () => import("@/pages/admin/registered-landlord/page"),
+);
+const ReportsPage = lazy(() => import("@/pages/admin/reports/page"));
 
 export const adminRoutes = [
   {
@@ -17,6 +22,14 @@ export const adminRoutes = [
       {
         path: "pending-listings",
         element: <PendingListings />,
+      },
+      {
+        path: "registered-landlords",
+        element: <RegisteredLandlord />,
+      },
+      {
+        path: "reports",
+        element: <ReportsPage />,
       },
     ],
   },
