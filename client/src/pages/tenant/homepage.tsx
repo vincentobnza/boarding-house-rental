@@ -1,8 +1,8 @@
-import { Search } from "lucide-react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useCurrentPosition } from "@/hooks/useCurrentPosition";
 import { Icon } from "leaflet";
+import { FilterSearchModal } from "./filter-search-modal";
 export default function Homepage() {
   const position = useCurrentPosition();
 
@@ -20,19 +20,7 @@ export default function Homepage() {
         <p className="text-lg md:text-2xl mb-6 md:mb-10">
           Find a suitable rental house
         </p>
-        <div className="flex items-center border rounded-lg px-3 py-2 bg-white shadow-sm max-w-full md:max-w-md">
-          <span className="text-gray-400 mr-2">
-            <Search size={20} />
-          </span>
-          <input
-            type="text"
-            placeholder="Search for a rental house..."
-            className="outline-none flex-1 text-base md:text-lg bg-transparent"
-          />
-          <span className="ml-2 px-2 py-1 rounded bg-gray-100 border text-gray-600 text-xs font-mono">
-            ⏎ Enter
-          </span>
-        </div>
+        <FilterSearchModal />
         <p className="mt-5 opacity-50 text-sm md:text-base">
           This app uses your current location to find rental houses
         </p>
