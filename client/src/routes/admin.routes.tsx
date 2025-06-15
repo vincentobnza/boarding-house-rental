@@ -1,7 +1,7 @@
 import { lazy } from "react";
 
 const AdminLayout = lazy(() => import("@/layout/admin-layout"));
-const AdminDashboard = lazy(() => import("@/pages/admin/overview/dashboard"));
+const AdminDashboard = lazy(() => import("@/pages/admin/overview/page"));
 const PendingListings = lazy(
   () => import("@/pages/admin/pending-listing/page"),
 );
