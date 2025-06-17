@@ -17,16 +17,16 @@ export default function LandlordLayout() {
   const location = useLocation();
   const shouldShowFooter = location.pathname === "/landlord/dashboard/inbox";
   return (
-    <div className="w-full flex flex-col min-h-screen">
+    <div className="flex min-h-screen w-full flex-col">
       <nav className="sticky top-0 z-[99999] w-full bg-white">
-        <header className="relative w-full p-3 bg-zinc-50 border-b border-zinc-200 flex justify-between items-center px-9 overflow-hidden">
+        <header className="relative flex w-full items-center justify-between overflow-hidden border-b border-zinc-200 bg-zinc-50 p-3 px-9">
           <img
             src={NavbarImage}
             alt="image"
-            className="absolute w-full inset-0 object-cover opacity-20"
+            className="absolute inset-0 w-full object-cover opacity-20"
           />
           <h3 className="text-sm font-bold">SMART SEARCH</h3>
-          <div className="flex flex-col justify-center items-center gap-2 text-center">
+          <div className="flex flex-col items-center justify-center gap-2 text-center">
             <img
               src="https://cdn-icons-png.flaticon.com/128/6676/6676684.png"
               alt="owner"
@@ -38,7 +38,7 @@ export default function LandlordLayout() {
         </header>
         <Nav />
       </nav>
-      <main className="flex-grow w-full flex flex-col justify-center max-w-screen-2xl mx-auto">
+      <main className="mx-auto flex w-full max-w-screen-2xl flex-grow flex-col justify-center">
         <Outlet />
       </main>
       {!shouldShowFooter && <Footer />}
@@ -62,28 +62,28 @@ const Nav = () => {
     },
     {
       name: "Inquirer",
-      link: "/landlord/dashboard/menu",
+      link: "/landlord/dashboard/inquirer",
       icon: <BanknoteArrowUp className="size-4" />,
       hasChip: true,
     },
   ];
   return (
-    <div className="w-full p-1 bg-white border-b border-zinc-200 flex justify-center items-center px-9 gap-6">
+    <div className="flex w-full items-center justify-center gap-6 border-b border-zinc-200 bg-white p-1 px-9">
       {navItems.map((item) => (
         <NavLink
           key={item.name}
           to={item.link}
           className={({ isActive }) =>
             [
-              "relative p-5 flex justify-center items-center gap-2 text-sm text-zinc-600 hover:text-zinc-900",
+              "relative flex items-center justify-center gap-2 p-5 text-sm text-zinc-600 hover:text-zinc-900",
               isActive
-                ? "text-zinc-900 font-semibold border-b-2 border-zinc-900"
+                ? "border-b-2 border-zinc-900 font-semibold text-zinc-900"
                 : "",
             ].join(" ")
           }
         >
           {item.hasChip && (
-            <span className="absolute top-1 -right-1 bg-orange-400 text-white text-xs rounded-full size-6 grid place-items-center">
+            <span className="absolute top-1 -right-1 grid size-6 place-items-center rounded-full bg-orange-400 text-xs text-white">
               3
             </span>
           )}
@@ -108,7 +108,7 @@ const ProfileDropdown = () => {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56 z-[999999]" align="end">
+        <DropdownMenuContent className="z-[999999] w-56" align="end">
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuItem>Profile</DropdownMenuItem>
           <DropdownMenuItem>Logout</DropdownMenuItem>

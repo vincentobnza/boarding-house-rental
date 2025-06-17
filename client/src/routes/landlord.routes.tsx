@@ -6,20 +6,25 @@ const LandlordLogin = lazy(() => import("../pages/landlord/login"));
 const LandlordSignup = lazy(() => import("../pages/landlord/signup"));
 const LandlordLayout = lazy(() => import("../layout/landlord-layout"));
 const LandlordDashboard = lazy(
-  () => import("../pages/landlord/listings/dashboard")
+  () => import("../pages/landlord/listings/dashboard"),
 );
 const LandlordRegistration = lazy(
-  () => import("../pages/landlord/registration/registration")
+  () => import("../pages/landlord/registration/registration"),
 );
 
 const LandlordRegistrationPayment = lazy(
-  () => import("../pages/landlord/registration/registration-payment")
+  () => import("../pages/landlord/registration/registration-payment"),
 );
 const LandlordInbox = lazy(() => import("../pages/landlord/inbox/chat"));
 
 const LandlordListingsNew = lazyWithDelay(
   () => import("../pages/landlord/listings/new-listing"),
-  2000
+  2000,
+);
+
+const LandlordInquirer = lazyWithDelay(
+  () => import("../pages/landlord/inquirer"),
+  2000,
 );
 
 const withSuspense = (Component: React.ReactNode) => (
@@ -65,6 +70,11 @@ export const landlordRoutes = [
       {
         path: "listings/new",
         element: withSuspense(<LandlordListingsNew />),
+      },
+
+      {
+        path: "inquirer",
+        element: withSuspense(<LandlordInquirer />),
       },
     ],
   },
