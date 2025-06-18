@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { ChartNoAxesGantt, LogOut } from "lucide-react";
+import { ChartNoAxesGantt, CheckCircle, PencilLine } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Link } from "react-router-dom";
+import { LogOutDialog } from "@/components/logout-modal";
 
 export default function LandlordInquirer() {
   return (
@@ -24,7 +24,7 @@ export default function LandlordInquirer() {
             </p>
           </div>
 
-          <LogOutDialog />
+          <LogOutDialog redirectAfterLogoutUrl="/landlord/login" />
         </div>
 
         <div className="w-3/4 rounded-lg border border-zinc-200 p-8">
@@ -128,7 +128,7 @@ const ViewDetailsModal = (
           </Button>
         </div>
       </DialogTrigger>
-      <DialogContent className="z-[999999] sm:max-w-[625px]">
+      <DialogContent className="z-[999999] sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>Tenant Details</DialogTitle>
           <DialogDescription>
@@ -141,6 +141,17 @@ const ViewDetailsModal = (
             <Label label="Apartment Name" tenant_name={props.apartment_name} />
             <Label label="Apartment Type" tenant_name={props.apartment_type} />
             <Label label="Beds" tenant_name={props.beds} />
+          </div>
+
+          <div className="mt-10 flex w-full gap-2">
+            <Button className="h-12 flex-1 rounded" variant="outline">
+              <PencilLine />
+              Mark as Reviewed
+            </Button>
+            <Button className="h-12 flex-1 rounded bg-emerald-600 text-white shadow-none hover:bg-emerald-700">
+              <CheckCircle />
+              Approved
+            </Button>
           </div>
         </DialogHeader>
       </DialogContent>
@@ -160,37 +171,5 @@ const Label = ({
       <p className="text-xs opacity-70">{label}</p>
       <h1 className="text-lg font-bold">{tenant_name}</h1>
     </div>
-  );
-};
-
-const LogOutDialog = () => {
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline" className="w-full rounded">
-          <LogOut />
-          Logout
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="z-[999999] sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Confirm Logout</DialogTitle>
-          <DialogDescription>
-            Are you sure you want to log out? You will need to log in again to
-            access your account.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="mt-8 flex justify-end gap-2">
-          <Button variant="outline" className="rounded">
-            Cancel
-          </Button>
-          <Link to="/landlord/login">
-            <Button className="rounded bg-orange-500 text-white shadow-none hover:bg-orange-600">
-              Logout
-            </Button>
-          </Link>
-        </div>
-      </DialogContent>
-    </Dialog>
   );
 };
