@@ -1,5 +1,5 @@
 import Footer from "@/components/footer";
-import { Search } from "lucide-react";
+import { Heart, MessageCircle, Search } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import { School, House, Warehouse } from "lucide-react";
@@ -20,6 +20,16 @@ export default function TenantLayout() {
       name: "Boarding House",
       link: "/tenant/boarding-house",
       icon: <Warehouse className="size-4" />,
+    },
+    {
+      name: "Chat",
+      link: "/tenant/chat",
+      icon: <MessageCircle className="size-4" />,
+    },
+    {
+      name: "Bookmarks",
+      link: "/tenant/bookmarks",
+      icon: <Heart className="size-4" />,
     },
   ];
   return (
