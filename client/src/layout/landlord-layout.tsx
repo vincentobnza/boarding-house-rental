@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useLocation } from "react-router-dom";
 import NavbarImage from "@/assets/navbar-image.jpg";
+import { LogOutDialog } from "@/components/logout-modal";
+import { useState } from "react";
 
 export default function LandlordLayout() {
   const location = useLocation();
@@ -96,6 +98,7 @@ const Nav = () => {
 };
 
 const ProfileDropdown = () => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <>
       <DropdownMenu>
@@ -111,9 +114,17 @@ const ProfileDropdown = () => {
         <DropdownMenuContent className="z-[999999] w-56" align="end">
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>Logout</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setIsOpen(true)}>
+            Logout
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      <LogOutDialog
+        redirectAfterLogoutUrl="/"
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
     </>
   );
 };

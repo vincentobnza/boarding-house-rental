@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -6,38 +5,32 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "./ui/dialog";
 import { Button } from "./ui/button";
-import { Loader, LogOut } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-
-type LogOutDialogProps = {
-  redirectAfterLogoutUrl: string;
-  delay?: number;
-};
+import { Loader } from "lucide-react";
+import { useLogout } from "@/hooks/useLogout";
 export const LogOutDialog = ({
-  redirectAfterLogoutUrl,
+  redirectAfterLogoutUrl = "/",
   delay = 3000,
-}: LogOutDialogProps) => {
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      navigate(redirectAfterLogoutUrl);
-    }, delay);
-  };
+  isOpen,
+  setIsOpen,
+}: {
+  redirectAfterLogoutUrl?: string;
+  delay?: number;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+}) => {
+  const { loading, handleLogout } = useLogout({
+    redirectAfterLogoutUrl: redirectAfterLogoutUrl,
+    delay: delay || 0,
+  });
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline" className="w-full rounded">
-          <LogOut />
-          Logout
-        </Button>
-      </DialogTrigger>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => {
+        setIsOpen(open);
+      }}
+    >
       <DialogContent className="z-[999999] sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Confirm Logout</DialogTitle>

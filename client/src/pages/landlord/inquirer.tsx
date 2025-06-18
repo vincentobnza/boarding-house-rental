@@ -1,6 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { ChartNoAxesGantt, CheckCircle, PencilLine } from "lucide-react";
+import {
+  ChartNoAxesGantt,
+  CheckCircle,
+  LogOut,
+  PencilLine,
+} from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -9,9 +14,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useState } from "react";
 import { LogOutDialog } from "@/components/logout-modal";
 
 export default function LandlordInquirer() {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="min-h-[80vh] p-8">
       <div className="flex h-full w-full items-start space-x-6">
@@ -23,8 +30,21 @@ export default function LandlordInquirer() {
               Manage inquiries from potential tenants.
             </p>
           </div>
+          <Button
+            variant="outline"
+            className="w-full rounded"
+            onClick={() => setIsOpen(true)}
+          >
+            <LogOut />
+            Logout
+          </Button>
 
-          <LogOutDialog redirectAfterLogoutUrl="/landlord/login" />
+          <LogOutDialog
+            redirectAfterLogoutUrl="/landlord/login"
+            delay={3000}
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+          />
         </div>
 
         <div className="w-3/4 rounded-lg border border-zinc-200 p-8">

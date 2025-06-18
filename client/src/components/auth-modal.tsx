@@ -13,19 +13,19 @@ export default function AuthModal(props: {
 }) {
   return (
     <Dialog open={props.open} onOpenChange={props.handleOpenChange}>
-      <DialogContent className="z-[9999] flex justify-center items-center flex-col">
+      <DialogContent className="z-[999999] flex flex-col items-center justify-center">
         <DialogHeader>Welcome to Smart Search</DialogHeader>
         <Tabs
           defaultValue={props.defaultValue || "login"}
-          className="w-[400px] mx-auto"
+          className="mx-auto w-[400px]"
         >
-          <TabsList className="flex justify-center w-full h-12">
+          <TabsList className="flex h-12 w-full justify-center">
             <TabsTrigger value="login">
-              <LogIn className="size-4 mr-2" />
+              <LogIn className="mr-2 size-4" />
               Login
             </TabsTrigger>
             <TabsTrigger value="signup">
-              <UserPlus className="size-4 mr-2" />
+              <UserPlus className="mr-2 size-4" />
               Signup
             </TabsTrigger>
           </TabsList>
@@ -33,7 +33,7 @@ export default function AuthModal(props: {
             <form className="flex flex-col gap-4">
               <Input type="email" placeholder="Email" required />
               <Input type="password" placeholder="Password" required />
-              <Button type="submit" className="w-full rounded-md h-12">
+              <Button type="submit" className="h-12 w-full rounded-md">
                 Login
               </Button>
             </form>
@@ -43,7 +43,7 @@ export default function AuthModal(props: {
               <Input type="email" placeholder="Email" required />
               <Input type="password" placeholder="Password" required />
               <Input type="password" placeholder="Confirm Password" required />
-              <Button type="submit" className="w-full rounded-md h-12">
+              <Button type="submit" className="h-12 w-full rounded-md">
                 Signup
               </Button>
             </form>
