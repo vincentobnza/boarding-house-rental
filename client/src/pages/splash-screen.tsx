@@ -5,24 +5,24 @@ import { Link } from "react-router-dom";
 
 export default function SplashScreen() {
   return (
-    <div className="w-full min-h-screen bg-orange-100 flex items-center justify-center relative">
+    <div className="relative flex min-h-screen w-full items-center justify-center bg-orange-100">
       <img
         src={BackgroundImage}
         alt="Background"
-        className="absolute inset-0 w-full h-full object-cover opacity-20 grayscale"
+        className="absolute inset-0 h-full w-full object-cover opacity-20 grayscale"
       />
-      <div className="w-full max-w-lg mx-auto flex flex-col items-center justify-center gap-8 z-5 p-5">
-        <div className="size-24 bg-orange-500 text-white rounded-full grid place-items-center">
+      <div className="z-5 mx-auto flex w-full max-w-lg flex-col items-center justify-center gap-8 p-5">
+        <div className="grid size-24 place-items-center rounded-full bg-orange-500 text-white">
           <MapPinHouse size={35} />
         </div>
-        <h1 className="text-5xl md:text-7xl font-bold">Smart Search</h1>
-        <p className="text-sm md:text-lg text-center font-semibold mb-12">
+        <h1 className="text-5xl font-bold md:text-7xl">Smart Search</h1>
+        <p className="mb-12 text-center text-sm font-semibold md:text-lg">
           Web Based Boarding and Rental House Locator Platform using Results
           Ranking and Filtering (RRF) in San Jose, Occidental Mindoro
         </p>
 
         <Button size="lg" asChild>
-          <Link to="/onboarding">Get Started</Link>
+          <Link to="/get-started">Get Started</Link>
         </Button>
       </div>
     </div>

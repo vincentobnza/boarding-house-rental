@@ -1,7 +1,7 @@
 import { lazy } from "react";
 
 const SplashScreen = lazy(() => import("../pages/splash-screen"));
-const Onboarding = lazy(() => import("../pages/onboarding"));
+const GetStarted = lazy(() => import("../pages/get-started"));
 
 export const globalRoutes = [
   {
@@ -9,7 +9,7 @@ export const globalRoutes = [
     element: <SplashScreen />,
   },
   {
-    path: "/onboarding",
-    element: <Onboarding />,
+    path: "/get-started",
+    element: <GetStarted />,
   },
 ];
