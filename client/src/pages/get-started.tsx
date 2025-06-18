@@ -5,8 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, House, User } from "lucide-react";
 import React from "react";
 
-// GET STARTED PAGE
-
 export default function GetStarted() {
   const userTypes = [
     {
