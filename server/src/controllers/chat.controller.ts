@@ -268,3 +268,309 @@ export const createConversation = async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+
+// Mock data generation helpers
+const generateMockTimestamp = (minutesAgo: number) => {
+  return new Date(Date.now() - minutesAgo * 60000).toISOString();
+};
+
+// Sample API endpoints for Postman testing
+export const getSampleTenantData = async (req: Request, res: Response) => {
+  try {
+    // Use the provided tenantId or default to "tenant1" if none is provided
+    const tenantId = req.params.tenantId || "tenant1";
+
+    // Sample tenant conversations
+    const conversations = [
+      {
+        _id: `${tenantId}-landlord1`,
+        participants: [
+          {
+            _id: "landlord1",
+            username: "John Owner",
+            avatar:
+              "https://ui-avatars.com/api/?name=John+Owner&background=0D8ABC&color=fff",
+            role: "landlord",
+          },
+          {
+            _id: tenantId,
+            username: "Alex Renter",
+            avatar:
+              "https://ui-avatars.com/api/?name=Alex+Renter&background=27AE60&color=fff",
+            role: "tenant",
+          },
+        ],
+        lastMessage: {
+          message: "When would you like to schedule a viewing?",
+          timestamp: generateMockTimestamp(60), // 1 hour ago
+          sender: "landlord1",
+        },
+        property: {
+          _id: "prop1",
+          name: "Sunny Heights Apartment",
+          address: "123 Main St, Anytown",
+          rent: "₱15,000/month",
+        },
+        unreadCount: 2,
+        updatedAt: generateMockTimestamp(60),
+      },
+      {
+        _id: `${tenantId}-landlord2`,
+        participants: [
+          {
+            _id: "landlord2",
+            username: "Mary Property",
+            avatar:
+              "https://ui-avatars.com/api/?name=Mary+Property&background=8E44AD&color=fff",
+            role: "landlord",
+          },
+          {
+            _id: tenantId,
+            username: "Alex Renter",
+            avatar:
+              "https://ui-avatars.com/api/?name=Alex+Renter&background=27AE60&color=fff",
+            role: "tenant",
+          },
+        ],
+        lastMessage: {
+          message: "The apartment is available starting next month.",
+          timestamp: generateMockTimestamp(1440), // 1 day ago
+          sender: "landlord2",
+        },
+        property: {
+          _id: "prop2",
+          name: "Downtown Studio",
+          address: "456 Center Ave, Metropolis",
+          rent: "₱12,000/month",
+        },
+        unreadCount: 0,
+        updatedAt: generateMockTimestamp(1440),
+      },
+    ];
+
+    // Selected conversation messages
+    const selectedConversation =
+      req.query.conversationId || `${tenantId}-landlord1`;
+    const messages = [
+      {
+        _id: "msg1",
+        conversationId: selectedConversation,
+        sender: {
+          _id: tenantId,
+          username: "Alex Renter",
+          avatar:
+            "https://ui-avatars.com/api/?name=Alex+Renter&background=27AE60&color=fff",
+        },
+        message:
+          "Hello! I'm interested in your Sunny Heights Apartment listing.",
+        timestamp: generateMockTimestamp(120), // 2 hours ago
+      },
+      {
+        _id: "msg2",
+        conversationId: selectedConversation,
+        sender: {
+          _id: "landlord1",
+          username: "John Owner",
+          avatar:
+            "https://ui-avatars.com/api/?name=John+Owner&background=0D8ABC&color=fff",
+        },
+        message:
+          "Hi Alex! Thanks for your interest. The apartment is still available.",
+        timestamp: generateMockTimestamp(110), // 1 hour 50 mins ago
+      },
+      {
+        _id: "msg3",
+        conversationId: selectedConversation,
+        sender: {
+          _id: tenantId,
+          username: "Alex Renter",
+          avatar:
+            "https://ui-avatars.com/api/?name=Alex+Renter&background=27AE60&color=fff",
+        },
+        message:
+          "Great! I'd like to see it. Is it possible to schedule a viewing?",
+        timestamp: generateMockTimestamp(100), // 1 hour 40 mins ago
+      },
+      {
+        _id: "msg4",
+        conversationId: selectedConversation,
+        sender: {
+          _id: "landlord1",
+          username: "John Owner",
+          avatar:
+            "https://ui-avatars.com/api/?name=John+Owner&background=0D8ABC&color=fff",
+        },
+        message:
+          "Certainly! I'm available tomorrow afternoon or Saturday morning. When would you like to schedule a viewing?",
+        timestamp: generateMockTimestamp(60), // 1 hour ago
+      },
+    ];
+
+    return res.status(200).json({
+      conversations,
+      messages,
+      user: {
+        _id: tenantId,
+        username: "Alex Renter",
+        role: "tenant",
+        avatar:
+          "https://ui-avatars.com/api/?name=Alex+Renter&background=27AE60&color=fff",
+      },
+    });
+  } catch (error) {
+    console.error("Error generating sample tenant data:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const getSampleLandlordData = async (req: Request, res: Response) => {
+  try {
+    // Use the provided landlordId or default to "landlord1" if none is provided
+    const landlordId = req.params.landlordId || "landlord1";
+
+    // Sample landlord conversations
+    const conversations = [
+      {
+        _id: `tenant1-${landlordId}`,
+        participants: [
+          {
+            _id: landlordId,
+            username: "John Owner",
+            avatar:
+              "https://ui-avatars.com/api/?name=John+Owner&background=0D8ABC&color=fff",
+            role: "landlord",
+          },
+          {
+            _id: "tenant1",
+            username: "Alex Renter",
+            avatar:
+              "https://ui-avatars.com/api/?name=Alex+Renter&background=27AE60&color=fff",
+            role: "tenant",
+          },
+        ],
+        lastMessage: {
+          message:
+            "Great! I'd like to see it. Is it possible to schedule a viewing?",
+          timestamp: generateMockTimestamp(100), // 1 hour 40 mins ago
+          sender: "tenant1",
+        },
+        property: {
+          _id: "prop1",
+          name: "Sunny Heights Apartment",
+          address: "123 Main St, Anytown",
+          rent: "₱15,000/month",
+        },
+        unreadCount: 1,
+        updatedAt: generateMockTimestamp(100),
+      },
+      {
+        _id: `tenant2-${landlordId}`,
+        participants: [
+          {
+            _id: landlordId,
+            username: "John Owner",
+            avatar:
+              "https://ui-avatars.com/api/?name=John+Owner&background=0D8ABC&color=fff",
+            role: "landlord",
+          },
+          {
+            _id: "tenant2",
+            username: "Sarah Client",
+            avatar:
+              "https://ui-avatars.com/api/?name=Sarah+Client&background=F39C12&color=fff",
+            role: "tenant",
+          },
+        ],
+        lastMessage: {
+          message: "Is the property pet-friendly?",
+          timestamp: generateMockTimestamp(30), // 30 mins ago
+          sender: "tenant2",
+        },
+        property: {
+          _id: "prop1",
+          name: "Sunny Heights Apartment",
+          address: "123 Main St, Anytown",
+          rent: "₱15,000/month",
+        },
+        unreadCount: 3,
+        updatedAt: generateMockTimestamp(30),
+      },
+    ];
+
+    // Selected conversation messages
+    const selectedConversation =
+      req.query.conversationId || `tenant1-${landlordId}`;
+    const messages = [
+      {
+        _id: "msg1",
+        conversationId: selectedConversation,
+        sender: {
+          _id: "tenant1",
+          username: "Alex Renter",
+          avatar:
+            "https://ui-avatars.com/api/?name=Alex+Renter&background=27AE60&color=fff",
+        },
+        message:
+          "Hello! I'm interested in your Sunny Heights Apartment listing.",
+        timestamp: generateMockTimestamp(120), // 2 hours ago
+      },
+      {
+        _id: "msg2",
+        conversationId: selectedConversation,
+        sender: {
+          _id: landlordId,
+          username: "John Owner",
+          avatar:
+            "https://ui-avatars.com/api/?name=John+Owner&background=0D8ABC&color=fff",
+        },
+        message:
+          "Hi Alex! Thanks for your interest. The apartment is still available.",
+        timestamp: generateMockTimestamp(110), // 1 hour 50 mins ago
+      },
+      {
+        _id: "msg3",
+        conversationId: selectedConversation,
+        sender: {
+          _id: "tenant1",
+          username: "Alex Renter",
+          avatar:
+            "https://ui-avatars.com/api/?name=Alex+Renter&background=27AE60&color=fff",
+        },
+        message:
+          "Great! I'd like to see it. Is it possible to schedule a viewing?",
+        timestamp: generateMockTimestamp(100), // 1 hour 40 mins ago
+      },
+    ];
+
+    return res.status(200).json({
+      conversations,
+      messages,
+      user: {
+        _id: landlordId,
+        username: "John Owner",
+        role: "landlord",
+        avatar:
+          "https://ui-avatars.com/api/?name=John+Owner&background=0D8ABC&color=fff",
+        properties: [
+          {
+            _id: "prop1",
+            name: "Sunny Heights Apartment",
+            address: "123 Main St, Anytown",
+            rent: "₱15,000/month",
+            status: "active",
+          },
+          {
+            _id: "prop2",
+            name: "City View Condo",
+            address: "789 Urban Blvd, Metropolis",
+            rent: "₱20,000/month",
+            status: "active",
+          },
+        ],
+      },
+    });
+  } catch (error) {
+    console.error("Error generating sample landlord data:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};

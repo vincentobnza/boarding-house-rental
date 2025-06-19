@@ -4,6 +4,8 @@ import {
   getMessages,
   createMessage,
   createConversation,
+  getSampleTenantData,
+  getSampleLandlordData,
 } from "../controllers/chat.controller";
 
 const router = Router();
@@ -26,5 +28,11 @@ router.post("/messages", asyncHandler(createMessage));
 
 // Create a new conversation
 router.post("/conversations", asyncHandler(createConversation));
+
+// Sample data endpoints for Postman testing
+router.get("/sample/tenant", asyncHandler(getSampleTenantData)); // Default route with no ID
+router.get("/sample/tenant/:tenantId", asyncHandler(getSampleTenantData)); // Route with ID
+router.get("/sample/landlord", asyncHandler(getSampleLandlordData)); // Default route with no ID
+router.get("/sample/landlord/:landlordId", asyncHandler(getSampleLandlordData)); // Route with ID
 
 export default router;
