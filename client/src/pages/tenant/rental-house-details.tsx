@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
+import TextField from "@/components/shared/text-field";
 
 interface PropertyDetail {
   icon: React.ElementType;
@@ -219,6 +220,45 @@ export default function RentalHouseDetails() {
                 </div>
               ))}
             </div>
+          </Card>
+
+          {/* INQUIRE SECTION */}
+          <Card className="p-6">
+            <h3 className="text-xl font-semibold">Inquire Now</h3>
+            <p className="mb-2 text-gray-600">
+              Interested in this property? Fill out the form below to send a
+              message to the landlord.
+            </p>
+
+            <form className="space-y-4">
+              <TextField
+                label="Your Name"
+                name="name"
+                placeholder="Enter your name"
+                required
+              />
+              <TextField
+                label="Your Email"
+                name="email"
+                type="email"
+                placeholder="Enter your email"
+                required
+              />
+              <TextField
+                label="Your Phone Number"
+                name="phone"
+                type="tel"
+                placeholder="Enter your phone number"
+                required
+              />
+
+              <Button
+                type="submit"
+                className="h-12 w-full rounded-lg bg-zinc-800"
+              >
+                Send Inquiry
+              </Button>
+            </form>
           </Card>
         </div>
 
