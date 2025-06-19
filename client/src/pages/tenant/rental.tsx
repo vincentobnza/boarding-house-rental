@@ -18,7 +18,7 @@ interface RentalHouseCardProps {
 const RentalHouseCard = ({ house }: RentalHouseCardProps) => {
   return (
     <Link to={`/tenant/rental-house/${house.id}`} className="block">
-      <div className="group relative h-90 w-full cursor-pointer overflow-hidden rounded bg-zinc-800 transition-transform duration-300 hover:scale-[1.02]">
+      <div className="group relative h-90 w-full cursor-pointer overflow-hidden rounded bg-zinc-700 transition-transform duration-300 hover:scale-[1.02]">
         <img
           src={house.image}
           alt="image"
@@ -30,7 +30,7 @@ const RentalHouseCard = ({ house }: RentalHouseCardProps) => {
           <Heart className="h-5 w-5 text-white" />
         </div>
         {/* overlay */}
-        <div className="bg-opacity-50 absolute inset-0 flex flex-col justify-end bg-gradient-to-b from-transparent to-zinc-800 p-8">
+        <div className="bg-opacity-50 absolute inset-0 flex flex-col justify-end bg-gradient-to-b from-transparent to-zinc-700 p-8">
           <h1 className="mb-1 text-xl font-bold text-white">{house.name}</h1>
           <p className="mb-8 text-sm text-zinc-300">
             <span>

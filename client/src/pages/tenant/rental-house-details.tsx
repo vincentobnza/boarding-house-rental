@@ -19,6 +19,8 @@ import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
 import TextField from "@/components/shared/text-field";
 import { Lens } from "@/components/magicui/lens";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
 interface PropertyDetail {
   icon: React.ElementType;
@@ -175,9 +177,7 @@ export default function RentalHouseDetails() {
             <p className="mt-2 flex items-center text-gray-600">
               <MapPin className="mr-2 h-4 w-4" /> {house.address}
             </p>
-            <h2 className="mt-4 text-2xl font-semibold">
-              ₱{house.price} / month
-            </h2>
+            <h2 className="mt-10 text-lg font-bold">₱{house.price} / month</h2>
           </div>
 
           <div className="aspect-video w-full overflow-hidden rounded-lg">
@@ -324,11 +324,23 @@ export default function RentalHouseDetails() {
           </Card>
 
           <Card className="p-6">
-            <h3 className="mb-2 text-xl font-semibold">Location</h3>
-            <div className="flex aspect-square w-full items-center justify-center rounded-lg bg-gray-200">
-              <p className="text-gray-500">Map placeholder</p>
+            <h3 className="text-lg">Location</h3>
+            <div className="flex h-40 w-full items-center justify-center rounded border border-zinc-300 bg-gray-200">
+              <MapContainer
+                center={[house.latitude, house.longitude]}
+                zoom={13}
+                className="h-full w-full rounded"
+              >
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <Marker position={[house.latitude, house.longitude]}>
+                  <Popup>{house.name}</Popup>
+                </Marker>
+              </MapContainer>
             </div>
-            <p className="mt-3 text-sm text-gray-600">{house.address}</p>
+            <p className="text-sm">{house.address}</p>
           </Card>
         </div>
       </div>

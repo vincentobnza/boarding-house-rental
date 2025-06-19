@@ -48,7 +48,7 @@ export default function TenantLayout() {
         </header>
 
         <div className="w-full">
-          <ul className="mx-auto flex w-full max-w-screen-lg items-center justify-center space-x-8 border-b border-zinc-200 bg-white px-9 py-5">
+          <ul className="mx-auto flex w-full items-center justify-center space-x-8 border-b border-zinc-200 bg-white px-9 py-5">
             {navigationItems.map((item) => (
               <li key={item.name} className="flex items-center space-x-2">
                 <NavLink
