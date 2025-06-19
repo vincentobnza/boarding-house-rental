@@ -5,7 +5,7 @@ import allRoutes from "./routes";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
 import { queryClient } from "./lib/query-client";
-import { ChatProvider } from "./hooks/ChatProvider";
+import { ChatProvider } from "./providers/ChatProvider";
 
 const router = createBrowserRouter(allRoutes);
 

@@ -1,7 +1,11 @@
 import { useState, useEffect, type ReactNode } from "react";
 import io, { Socket } from "socket.io-client";
-import { useAuth } from "./useAuth";
-import { ChatContext, type Message, type Conversation } from "./ChatContext";
+import { useAuth } from "../hooks/useAuth";
+import {
+  ChatContext,
+  type Message,
+  type Conversation,
+} from "../context/ChatContext";
 
 export function ChatProvider({ children }: { children: ReactNode }) {
   const [socket, setSocket] = useState<Socket | null>(null);
