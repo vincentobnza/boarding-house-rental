@@ -48,15 +48,15 @@ export default function TenantLayout() {
         </header>
 
         <div className="w-full">
-          <ul className="mx-auto flex w-full max-w-screen-lg items-center justify-center space-x-6 border-b border-zinc-200 bg-white px-9 py-3">
+          <ul className="mx-auto flex w-full max-w-screen-lg items-center justify-center space-x-8 border-b border-zinc-200 bg-white px-9 py-5">
             {navigationItems.map((item) => (
               <li key={item.name} className="flex items-center space-x-2">
                 <NavLink
                   to={item.link}
                   className={({ isActive }) =>
-                    `flex flex-col items-center gap-2 text-sm font-medium ${
+                    `flex items-center gap-2 text-sm font-medium ${
                       isActive
-                        ? "border-b-2 border-amber-600 text-amber-600"
+                        ? "text-amber-600"
                         : "text-zinc-700 hover:text-zinc-900"
                     }`
                   }

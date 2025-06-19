@@ -3,7 +3,6 @@ import { houses_data } from "./dummy-data";
 import React from "react";
 import {
   MapPin,
-  ArrowLeft,
   Home,
   Bed,
   Bath,
@@ -13,6 +12,8 @@ import {
   Phone,
   Mail,
   Heart,
+  MoveLeft,
+  ArrowUpRight,
 } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
@@ -127,7 +128,7 @@ const landlordDetails: LandlordDetail[] = [
 ];
 
 const description =
-  "This cozy apartment offers comfort and convenience at an affordable price. Located in a quiet neighborhood with easy access to public transportation, shopping centers, and restaurants. The property features modern amenities, including air conditioning, high-speed internet, and 24/7 security.";
+  "This cozy apartment offers comfort and convenience at an affordable price. Located in a quiet neighborhood with easy access to public transportation, shopping centers, and restaurants. The property features modern amenities, including air conditioning, high-speed internet, and 24/7 security. All utilities are included in the monthly rent. Perfect for young professionals or small families looking for a place to call home.";
 
 export default function RentalHouseDetails() {
   const { rentalHouseId } = useParams<{ rentalHouseId: string }>();
@@ -146,7 +147,7 @@ export default function RentalHouseDetails() {
         <p className="mb-6 text-gray-600">
           The rental house you're looking for doesn't exist.
         </p>
-        <Button onClick={() => navigate("/tenant/rental-house")}>
+        <Button onClick={() => navigate("/tenant/rental/rental-house")}>
           Go back to Rental Houses
         </Button>
       </div>
@@ -156,11 +157,13 @@ export default function RentalHouseDetails() {
   return (
     <div className="mx-auto max-w-screen-xl px-4 py-8">
       <Button
-        variant="ghost"
-        className="mb-6 flex items-center gap-2 rounded"
+        variant="outline"
+        className="mb-12 flex items-center gap-2 rounded-md border border-zinc-300 bg-zinc-50 text-sm"
         onClick={() => navigate(-1)}
+        size="sm"
       >
-        <ArrowLeft className="h-4 w-4" /> Back to listings
+        <MoveLeft />
+        Back to listings
       </Button>
 
       <div className="grid gap-8 md:grid-cols-3">
@@ -184,6 +187,21 @@ export default function RentalHouseDetails() {
             />
           </div>
 
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+            {Array.from({ length: 4 }, (_, index) => (
+              <div
+                key={index}
+                className="aspect-square overflow-hidden rounded-lg border border-zinc-200"
+              >
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGh5WFH8TOIfRKxUrIgJZoDCs1yvQ4hIcppw&s"
+                  alt={`Additional ${index + 1}`}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+
           <Card className="p-6">
             <h3 className="mb-4 text-xl font-semibold">Property Details</h3>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -202,12 +220,12 @@ export default function RentalHouseDetails() {
           </Card>
 
           <Card className="p-6">
-            <h3 className="mb-4 text-xl font-semibold">Description</h3>
+            <h3 className="text-xl font-semibold">Description</h3>
             <p className="leading-relaxed text-gray-700">{description}</p>
           </Card>
 
           <Card className="p-6">
-            <h3 className="mb-4 text-xl font-semibold">Amenities</h3>{" "}
+            <h3 className="text-xl font-semibold">Amenities</h3>{" "}
             <div className="grid grid-cols-2 gap-3">
               {amenities.map((item) => (
                 <div key={item.label} className="flex items-center gap-2">
@@ -256,6 +274,7 @@ export default function RentalHouseDetails() {
                 type="submit"
                 className="h-12 w-full rounded-lg bg-zinc-800"
               >
+                <ArrowUpRight />
                 Send Inquiry
               </Button>
             </form>

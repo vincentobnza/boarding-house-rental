@@ -19,7 +19,7 @@ export default function TextField({
 }: TextFieldProps) {
   return (
     <div className={cn("flex flex-col space-y-2", className)}>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1">
         {labelIcon && (
           <span className="text-zinc-700">
             {typeof labelIcon === "function"
@@ -32,7 +32,7 @@ export default function TextField({
           </span>
         )}
         {label && <label className="text-sm">{label}</label>}
-        {required && <span className="text-zinc-800">*</span>}
+        {required && <span className="mt-1 text-zinc-800">*</span>}
       </div>
       <Input
         required={required}
