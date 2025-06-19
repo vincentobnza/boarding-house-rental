@@ -18,6 +18,7 @@ import {
 import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
 import TextField from "@/components/shared/text-field";
+import { Lens } from "@/components/magicui/lens";
 
 interface PropertyDetail {
   icon: React.ElementType;
@@ -180,11 +181,18 @@ export default function RentalHouseDetails() {
           </div>
 
           <div className="aspect-video w-full overflow-hidden rounded-lg">
-            <img
-              src={house.image}
-              alt={house.name}
-              className="h-full w-full object-cover"
-            />
+            <Lens
+              zoomFactor={2}
+              lensSize={150}
+              isStatic={false}
+              ariaLabel="Zoom Area"
+            >
+              <img
+                src={house.image}
+                alt={house.name}
+                className="h-full w-full object-cover"
+              />
+            </Lens>
           </div>
 
           <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
