@@ -22,8 +22,8 @@ export default function TenantLayout() {
       icon: <Warehouse className="size-4" />,
     },
     {
-      name: "Chat",
-      link: "/tenant/chat",
+      name: "Messages",
+      link: "/tenant/inbox",
       icon: <MessageCircle className="size-4" />,
     },
     {

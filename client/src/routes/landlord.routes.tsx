@@ -78,4 +78,8 @@ export const landlordRoutes = [
       },
     ],
   },
+  {
+    path: "/landlord/inbox",
+    element: withSuspense(<LandlordInbox />),
+  },
 ];

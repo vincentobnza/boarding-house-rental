@@ -3,6 +3,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db";
 import usersRouter from "./routes/users.routes";
+import chatRouter from "./routes/chat.routes";
+import http from "http";
+import { Server as SocketIOServer } from "socket.io";
 
 dotenv.config();
 const app = express();
@@ -41,8 +44,43 @@ app.use(
 );
 
 app.use("/api/users", usersRouter);
+app.use("/api/chat", chatRouter);
 connectDB();
 
-app.listen(PORT, async () => {
+const server = http.createServer(app);
+const io = new SocketIOServer(server, {
+  cors: {
+    origin: process.env.CLIENT_URL!,
+    credentials: true,
+  },
+});
+
+// Socket.IO chat logic
+io.on("connection", (socket) => {
+  // Join a room for tenant-landlord chat (roomId = chatId or user pair)
+  socket.on("joinRoom", (roomId) => {
+    socket.join(roomId);
+  });
+
+  // Handle sending messages
+  socket.on("chatMessage", ({ roomId, message, sender, timestamp }) => {
+    io.to(roomId).emit("chatMessage", { message, sender, timestamp });
+  });
+
+  // Typing indicator
+  socket.on("typing", ({ roomId, sender }) => {
+    socket.to(roomId).emit("typing", { sender });
+  });
+
+  socket.on("stopTyping", ({ roomId, sender }) => {
+    socket.to(roomId).emit("stopTyping", { sender });
+  });
+
+  socket.on("disconnect", () => {
+    // Handle disconnect logic if needed
+  });
+});
+
+server.listen(PORT, async () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

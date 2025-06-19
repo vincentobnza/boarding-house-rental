@@ -6,6 +6,7 @@ const RentalHouse = lazy(() => import("../pages/tenant/rental-house"));
 const NearSchool = lazy(() => import("../pages/tenant/near-school"));
 const BoardingHouse = lazy(() => import("../pages/tenant/boarding-house"));
 const BookmarkPage = lazy(() => import("../pages/tenant/bookmarks"));
+const TenantInbox = lazy(() => import("../pages/tenant/inbox/chat"));
 
 export const tenantRoutes = [
   {
@@ -39,6 +40,10 @@ export const tenantRoutes = [
       {
         path: "bookmarks",
         element: <BookmarkPage />,
+      },
+      {
+        path: "inbox",
+        element: <TenantInbox />,
       },
     ],
   },
