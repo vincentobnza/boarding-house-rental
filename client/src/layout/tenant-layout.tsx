@@ -1,6 +1,6 @@
 import Footer from "@/components/footer";
 import { Heart, MessageCircle, Search } from "lucide-react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, ScrollRestoration } from "react-router-dom";
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import { School, House, Warehouse } from "lucide-react";
 
@@ -73,6 +73,8 @@ export default function TenantLayout() {
         <Outlet />
       </main>
       <Footer />
+
+      <ScrollRestoration />
     </div>
   );
 }

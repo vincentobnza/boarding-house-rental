@@ -64,8 +64,8 @@ export default function RentalHouseDetails() {
     <div className="mx-auto max-w-screen-xl px-4 py-8">
       {/* Back button */}
       <Button
-        variant="outline"
-        className="mb-6 flex items-center gap-2"
+        variant="ghost"
+        className="mb-6 flex items-center gap-2 rounded"
         onClick={() => navigate(-1)}
       >
         <ArrowLeft className="h-4 w-4" /> Back to listings
@@ -86,7 +86,7 @@ export default function RentalHouseDetails() {
           </div>
 
           {/* Main image */}
-          <div className="aspect-video w-full overflow-hidden rounded-xl">
+          <div className="aspect-video w-full overflow-hidden rounded-lg">
             <img
               src={house.image}
               alt={house.name}
@@ -185,11 +185,13 @@ export default function RentalHouseDetails() {
                 <p className="text-sm">{details.email}</p>
               </div>
             </div>
-            <div className="mt-6 space-y-3">
-              <Button className="w-full">Send Message</Button>
+            <div className="mt-6 space-y-2">
+              <Button className="h-12 w-full rounded bg-zinc-800 shadow-none">
+                Send Message
+              </Button>
               <Button
                 variant="outline"
-                className="flex w-full items-center justify-center gap-2"
+                className="flex h-12 w-full items-center justify-center gap-2 rounded"
               >
                 <Heart className="h-4 w-4" /> Save to Bookmarks
               </Button>
