@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { houses_data } from "./dummy-data";
+import React from "react";
 import {
   MapPin,
   ArrowLeft,
@@ -16,20 +17,127 @@ import {
 import { Button } from "../../components/ui/button";
 import { Card } from "../../components/ui/card";
 
+interface PropertyDetail {
+  icon: React.ElementType;
+  label: string;
+  value: string | number;
+  display: (v: string | number) => string;
+}
+
+const propertyDetails: PropertyDetail[] = [
+  {
+    icon: Home,
+    label: "type",
+    value: "Studio Apartment",
+    display: (v) => String(v),
+  },
+  {
+    icon: Bed,
+    label: "beds",
+    value: 2,
+    display: (v) => `${v} Beds`,
+  },
+  {
+    icon: Bath,
+    label: "baths",
+    value: 1,
+    display: (v) => `${v} Bath`,
+  },
+  {
+    icon: DoorClosed,
+    label: "area",
+    value: "75 sqm",
+    display: (v) => String(v),
+  },
+];
+
+interface Amenity {
+  label: string;
+  value: string | boolean;
+  color: string;
+  display: (v?: string | boolean) => string;
+}
+
+const amenities: Amenity[] = [
+  {
+    label: "Furnished",
+    value: "Yes",
+    color: "bg-green-500",
+    display: (v) => `Furnished: ${v}`,
+  },
+  {
+    label: "Air Conditioning",
+    value: true,
+    color: "bg-green-500",
+    display: () => "Air Conditioning",
+  },
+  {
+    label: "Wi-Fi Included",
+    value: true,
+    color: "bg-green-500",
+    display: () => "Wi-Fi Included",
+  },
+  {
+    label: "Kitchen",
+    value: true,
+    color: "bg-green-500",
+    display: () => "Kitchen",
+  },
+  {
+    label: "Pets",
+    value: "No",
+    color: "bg-red-500",
+    display: (v) => `Pets: ${v}`,
+  },
+  {
+    label: "Parking Available",
+    value: true,
+    color: "bg-green-500",
+    display: () => "Parking Available",
+  },
+];
+
+interface LandlordDetail {
+  icon: React.ElementType;
+  label: string;
+  value: string;
+  display: (v: string) => string;
+}
+
+const landlordDetails: LandlordDetail[] = [
+  {
+    icon: Calendar,
+    label: "Available",
+    value: "Immediately",
+    display: (v) => `Available: ${v}`,
+  },
+  {
+    icon: Phone,
+    label: "Phone",
+    value: "+63 912 345 6789",
+    display: (v) => v,
+  },
+  {
+    icon: Mail,
+    label: "Email",
+    value: "john.owner@example.com",
+    display: (v) => v,
+  },
+];
+
+const description =
+  "This cozy apartment offers comfort and convenience at an affordable price. Located in a quiet neighborhood with easy access to public transportation, shopping centers, and restaurants. The property features modern amenities, including air conditioning, high-speed internet, and 24/7 security.";
+
 export default function RentalHouseDetails() {
   const { rentalHouseId } = useParams<{ rentalHouseId: string }>();
   const navigate = useNavigate();
 
-  if (!rentalHouseId) {
-    return null;
-  }
+  if (!rentalHouseId) return null;
 
-  // Find the rental house by ID
   const house = houses_data.find(
     (house) => house.id === parseInt(rentalHouseId),
   );
 
-  // If house not found
   if (!house) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center">
@@ -44,25 +152,8 @@ export default function RentalHouseDetails() {
     );
   }
 
-  // Additional details for the house (simulated since they're not in the original data)
-  const details = {
-    type: "Studio Apartment",
-    beds: 2,
-    baths: 1,
-    area: "75 sqm",
-    furnished: "Yes",
-    pets: "No",
-    available: "Immediately",
-    landlord: "John Owner",
-    phone: "+63 912 345 6789",
-    email: "john.owner@example.com",
-    description:
-      "This cozy apartment offers comfort and convenience at an affordable price. Located in a quiet neighborhood with easy access to public transportation, shopping centers, and restaurants. The property features modern amenities, including air conditioning, high-speed internet, and 24/7 security.",
-  };
-
   return (
     <div className="mx-auto max-w-screen-xl px-4 py-8">
-      {/* Back button */}
       <Button
         variant="ghost"
         className="mb-6 flex items-center gap-2 rounded"
@@ -74,7 +165,6 @@ export default function RentalHouseDetails() {
       <div className="grid gap-8 md:grid-cols-3">
         {/* Main content - left 2/3 */}
         <div className="space-y-6 md:col-span-2">
-          {/* Title and basic info */}
           <div>
             <h1 className="text-3xl font-bold">{house.name}</h1>
             <p className="mt-2 flex items-center text-gray-600">
@@ -85,7 +175,6 @@ export default function RentalHouseDetails() {
             </h2>
           </div>
 
-          {/* Main image */}
           <div className="aspect-video w-full overflow-hidden rounded-lg">
             <img
               src={house.image}
@@ -94,72 +183,47 @@ export default function RentalHouseDetails() {
             />
           </div>
 
-          {/* Property details */}
           <Card className="p-6">
             <h3 className="mb-4 text-xl font-semibold">Property Details</h3>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-              <div className="flex flex-col items-center rounded-lg bg-gray-50 p-3">
-                <Home className="mb-2 text-gray-600" />
-                <p className="text-sm font-medium">{details.type}</p>
-              </div>
-              <div className="flex flex-col items-center rounded-lg bg-gray-50 p-3">
-                <Bed className="mb-2 text-gray-600" />
-                <p className="text-sm font-medium">{details.beds} Beds</p>
-              </div>
-              <div className="flex flex-col items-center rounded-lg bg-gray-50 p-3">
-                <Bath className="mb-2 text-gray-600" />
-                <p className="text-sm font-medium">{details.baths} Bath</p>
-              </div>
-              <div className="flex flex-col items-center rounded-lg bg-gray-50 p-3">
-                <DoorClosed className="mb-2 text-gray-600" />
-                <p className="text-sm font-medium">{details.area}</p>
-              </div>
+              {propertyDetails.map((item) => (
+                <div
+                  key={item.label}
+                  className="flex flex-col items-center rounded-lg bg-zinc-50 p-3"
+                >
+                  <item.icon className="mb-2 text-gray-600" />
+                  <p className="text-sm font-medium">
+                    {item.display(item.value)}
+                  </p>
+                </div>
+              ))}
             </div>
           </Card>
 
-          {/* Description */}
           <Card className="p-6">
             <h3 className="mb-4 text-xl font-semibold">Description</h3>
-            <p className="leading-relaxed text-gray-700">
-              {details.description}
-            </p>
+            <p className="leading-relaxed text-gray-700">{description}</p>
           </Card>
 
-          {/* Amenities */}
           <Card className="p-6">
-            <h3 className="mb-4 text-xl font-semibold">Amenities</h3>
+            <h3 className="mb-4 text-xl font-semibold">Amenities</h3>{" "}
             <div className="grid grid-cols-2 gap-3">
-              <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                <span>Furnished: {details.furnished}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                <span>Air Conditioning</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                <span>Wi-Fi Included</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                <span>Kitchen</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-red-500"></div>
-                <span>Pets: {details.pets}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                <span>Parking Available</span>
-              </div>
+              {amenities.map((item) => (
+                <div key={item.label} className="flex items-center gap-2">
+                  <div className={`h-2 w-2 rounded-full ${item.color}`}></div>
+                  <span>
+                    {typeof item.value === "boolean"
+                      ? item.display()
+                      : item.display(item.value)}
+                  </span>
+                </div>
+              ))}
             </div>
           </Card>
         </div>
 
         {/* Sidebar - right 1/3 */}
         <div className="space-y-6">
-          {/* Contact landlord card */}
           <Card className="p-6">
             <h3 className="mb-4 text-xl font-semibold">Contact Landlord</h3>
             <div className="mb-4 flex items-center gap-3">
@@ -167,23 +231,17 @@ export default function RentalHouseDetails() {
                 <User className="h-6 w-6 text-gray-600" />
               </div>
               <div>
-                <p className="font-medium">{details.landlord}</p>
+                <p className="font-medium">John Owner</p>
                 <p className="text-sm text-gray-600">Property Owner</p>
               </div>
             </div>
             <div className="mt-4 space-y-4">
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-gray-600" />
-                <p className="text-sm">Available: {details.available}</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-gray-600" />
-                <p className="text-sm">{details.phone}</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-gray-600" />
-                <p className="text-sm">{details.email}</p>
-              </div>
+              {landlordDetails.map((item) => (
+                <div key={item.label} className="flex items-center gap-2">
+                  <item.icon className="h-4 w-4 text-gray-600" />
+                  <p className="text-sm">{item.display(item.value)}</p>
+                </div>
+              ))}
             </div>
             <div className="mt-6 space-y-2">
               <Button className="h-12 w-full rounded bg-zinc-800 shadow-none">
@@ -198,9 +256,8 @@ export default function RentalHouseDetails() {
             </div>
           </Card>
 
-          {/* Map (just a placeholder) */}
           <Card className="p-6">
-            <h3 className="mb-4 text-xl font-semibold">Location</h3>
+            <h3 className="mb-2 text-xl font-semibold">Location</h3>
             <div className="flex aspect-square w-full items-center justify-center rounded-lg bg-gray-200">
               <p className="text-gray-500">Map placeholder</p>
             </div>
