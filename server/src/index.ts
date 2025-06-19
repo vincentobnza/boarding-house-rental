@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { connectDB } from "./config/db";
 import usersRouter from "./routes/users.routes";
 import landlordRouter from "./routes/landlord_register.routes"; // <-- landlord routes
+import apartmentRoutes from "./routes/apartment.routes"; // Import apartment routes
 import path from "path";
 
 dotenv.config();
@@ -33,6 +34,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Mount routers
 app.use("/api/users", usersRouter);
 app.use("/api/landlord", landlordRouter);  // <-- Added landlord router here
+app.use('/api/apartments', apartmentRoutes);
 
 // Global error handler for uploads (multer errors)
 app.use(

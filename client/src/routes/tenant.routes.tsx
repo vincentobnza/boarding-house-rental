@@ -2,9 +2,12 @@ import { lazy } from "react";
 const RootLayout = lazy(() => import("../layout/root-layout"));
 const Homepage = lazy(() => import("../pages/tenant/homepage"));
 const TenantLayout = lazy(() => import("../layout/tenant-layout"));
-const RentalHouse = lazy(() => import("../pages/tenant/rental-house"));
-const NearSchool = lazy(() => import("../pages/tenant/near-school"));
-const BoardingHouse = lazy(() => import("../pages/tenant/boarding-house"));
+const RentalPage = lazy(() => import("../pages/tenant/rental"));
+const BookmarkPage = lazy(() => import("../pages/tenant/bookmarks"));
+const TenantInbox = lazy(() => import("../pages/tenant/inbox/chat"));
+const RentalHouseDetails = lazy(
+  () => import("../pages/tenant/rental-house-details"),
+);
 
 export const tenantRoutes = [
   {
@@ -23,16 +26,38 @@ export const tenantRoutes = [
     element: <TenantLayout />,
     children: [
       {
+        path: "rental/:type",
+        element: <RentalPage />,
+      },
+      {
+        path: "rental/:rentalHouseId",
+        element: <RentalHouseDetails />,
+      },
+
+      {
         path: "rental-house",
-        element: <RentalHouse />,
+        element: <RentalPage />,
+      },
+      {
+        path: "rental-house/:rentalHouseId",
+        element: <RentalHouseDetails />,
       },
       {
         path: "near-school",
-        element: <NearSchool />,
+        element: <RentalPage />,
       },
       {
         path: "boarding-house",
-        element: <BoardingHouse />,
+        element: <RentalPage />,
+      },
+
+      {
+        path: "bookmarks",
+        element: <BookmarkPage />,
+      },
+      {
+        path: "inbox",
+        element: <TenantInbox />,
       },
     ],
   },
