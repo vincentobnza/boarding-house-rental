@@ -3,23 +3,40 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db";
 import usersRouter from "./routes/users.routes";
-import chatRouter from "./routes/chat.routes";
-import http from "http";
-import { Server as SocketIOServer } from "socket.io";
+import landlordRouter from "./routes/landlord_register.routes"; // <-- landlord routes
+import apartmentRoutes from "./routes/apartment.routes"; // Import apartment routes
+import path from "path";
 
 dotenv.config();
+
 const app = express();
 const PORT = process.env.PORT || 5000;
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true,
+}));
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL!,
+    origin: process.env.CLIENT_URL || "http://localhost:5173", // Allow frontend origin
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-app.use(express.json());
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Serve static files from uploads folder
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Mount routers
+app.use("/api/users", usersRouter);
+app.use("/api/landlord", landlordRouter);  // <-- Added landlord router here
+app.use('/api/apartments', apartmentRoutes);
+
+// Global error handler for uploads (multer errors)
 app.use(
   (
     error: any,
@@ -43,44 +60,8 @@ app.use(
   }
 );
 
-app.use("/api/users", usersRouter);
-app.use("/api/chat", chatRouter);
 connectDB();
 
-const server = http.createServer(app);
-const io = new SocketIOServer(server, {
-  cors: {
-    origin: process.env.CLIENT_URL!,
-    credentials: true,
-  },
-});
-
-// Socket.IO chat logic
-io.on("connection", (socket) => {
-  // Join a room for tenant-landlord chat (roomId = chatId or user pair)
-  socket.on("joinRoom", (roomId) => {
-    socket.join(roomId);
-  });
-
-  // Handle sending messages
-  socket.on("chatMessage", ({ roomId, message, sender, timestamp }) => {
-    io.to(roomId).emit("chatMessage", { message, sender, timestamp });
-  });
-
-  // Typing indicator
-  socket.on("typing", ({ roomId, sender }) => {
-    socket.to(roomId).emit("typing", { sender });
-  });
-
-  socket.on("stopTyping", ({ roomId, sender }) => {
-    socket.to(roomId).emit("stopTyping", { sender });
-  });
-
-  socket.on("disconnect", () => {
-    // Handle disconnect logic if needed
-  });
-});
-
-server.listen(PORT, async () => {
+app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
