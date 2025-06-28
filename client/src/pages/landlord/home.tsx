@@ -14,13 +14,13 @@ export default function Home() {
         <div className="px-4">
           <p className="font-bold">LANDLORD</p>
         </div>
-        <h1 className="text-5xl font-bold md:text-7xl">Smart Search</h1>
+        <h1 className="text-5xl font-bold md:text-6xl">Smart Search</h1>
         <p className="mb-12 text-center text-sm font-semibold md:text-lg">
           Web Based Boarding and Rental House Locator Platform using Results
           Ranking and Filtering (RRF) in San Jose, Occidental Mindoro
         </p>
 
-        <Button size="lg" asChild className="bg-zinc-900">
+        <Button size="lg" asChild className="bg-zinc-900 uppercase">
           <Link to="/landlord/login">Login your Account</Link>
         </Button>
 

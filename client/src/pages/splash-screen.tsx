@@ -15,13 +15,13 @@ export default function SplashScreen() {
         <div className="grid size-24 place-items-center rounded-full bg-orange-50 text-orange-400">
           <MapPinHouse size={35} />
         </div>
-        <h1 className="text-5xl font-bold md:text-7xl">Smart Search</h1>
+        <h1 className="text-5xl font-bold md:text-6xl">Smart Search</h1>
         <p className="mb-12 text-center text-sm font-semibold md:text-lg">
           Web Based Boarding and Rental House Locator Platform using Results
           Ranking and Filtering (RRF) in San Jose, Occidental Mindoro
         </p>
 
-        <Button size="lg" className="text-lg shadow-none" asChild>
+        <Button size="lg" className="text-lg uppercase shadow-none" asChild>
           <Link to="/get-started">Get Started</Link>
         </Button>
       </div>

@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 * {
-  font-family: "Outfit", sans-serif;
+  font-family: "Quicksand", sans-serif;
 }
 
 @theme inline {
