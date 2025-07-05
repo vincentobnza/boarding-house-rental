@@ -5,8 +5,8 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "./ui/dialog";
-import { Button } from "./ui/button";
+} from "../ui/dialog";
+import { Button } from "../ui/button";
 import { Loader } from "lucide-react";
 import { useLogout } from "@/hooks/useLogout";
 export const LogOutDialog = ({

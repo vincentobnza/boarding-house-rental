@@ -28,7 +28,9 @@ export default function PendingListings() {
       try {
         const res = await fetch("http://localhost:5000/api/landlord/landlords");
         const data = await res.json();
-        const pending = data.filter((item: Landlord) => item.status === "pending");
+        const pending = data.filter(
+          (item: Landlord) => item.status === "pending",
+        );
         setListings(pending);
       } catch (error) {
         console.error("Failed to fetch landlords:", error);
@@ -40,7 +42,6 @@ export default function PendingListings() {
   return (
     <div className="mx-auto w-full max-w-screen-xl space-y-6 p-6">
       <h2 className="text-2xl font-bold">Pending Listings</h2>
-
       <div className="grid gap-6">
         {listings.map((listing) => (
           <div
@@ -74,21 +75,33 @@ export default function PendingListings() {
                   {listing.business_address}
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <BedDouble className="h-4 w-4" />
-                  ₱{listing.monthly_rate?.toLocaleString()} / month
+                  <BedDouble className="h-4 w-4" />₱
+                  {listing.monthly_rate?.toLocaleString()} / month
                 </div>
               </div>
 
               <div className="mt-6 flex flex-wrap justify-end gap-2 border-t border-gray-100 pt-4">
-                <Button variant="ghost" size="sm" className="flex items-center gap-1 text-gray-600 hover:text-gray-800">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="flex items-center gap-1 text-gray-600 hover:text-gray-800"
+                >
                   <Eye className="h-4 w-4" />
                   View
                 </Button>
-                <Button variant="ghost" size="sm" className="flex items-center gap-1 text-green-600 hover:text-green-800">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="flex items-center gap-1 text-green-600 hover:text-green-800"
+                >
                   <CheckCircle className="h-4 w-4" />
                   Approve
                 </Button>
-                <Button variant="ghost" size="sm" className="flex items-center gap-1 text-red-600 hover:text-red-800">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="flex items-center gap-1 text-red-600 hover:text-red-800"
+                >
                   <XCircle className="h-4 w-4" />
                   Decline
                 </Button>

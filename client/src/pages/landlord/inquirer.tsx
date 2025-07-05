@@ -15,7 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import { LogOutDialog } from "@/components/logout-modal";
+import { LogOutDialog } from "@/components/modals/logout-modal";
 
 export default function LandlordInquirer() {
   const [isOpen, setIsOpen] = useState(false);

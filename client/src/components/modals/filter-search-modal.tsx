@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   Command,
   CommandEmpty,
@@ -41,6 +42,7 @@ type NominatimResult = {
 const NOMINATIM_BASE_URL = "https://nominatim.openstreetmap.org/search";
 
 export function FilterSearchModal() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<NominatimResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,11 +50,62 @@ export function FilterSearchModal() {
     useState<NominatimResult | null>(null);
   const searchTimeout = useRef<NodeJS.Timeout | null>(null);
 
-  // New state variables for filters
-  const [minPrice, setMinPrice] = useState<string>("");
-  const [maxPrice, setMaxPrice] = useState<string>("");
-  const [facilityType, setFacilityType] = useState<string>("");
-  const [bedsAvailable, setBedsAvailable] = useState<string>("");
+  // Initialize filter values from URL search params
+  const [minPrice, setMinPrice] = useState<string>(
+    searchParams.get("minPrice") || "",
+  );
+  const [maxPrice, setMaxPrice] = useState<string>(
+    searchParams.get("maxPrice") || "",
+  );
+  const [facilityType, setFacilityType] = useState<string>(
+    searchParams.get("facilityType") || "",
+  );
+  const [bedsAvailable, setBedsAvailable] = useState<string>(
+    searchParams.get("bedsAvailable") || "",
+  );
+
+  // Update URL when filter values change
+  useEffect(() => {
+    const params = new URLSearchParams();
+
+    if (minPrice) params.set("minPrice", minPrice);
+    if (maxPrice) params.set("maxPrice", maxPrice);
+    if (facilityType) params.set("facilityType", facilityType);
+    if (bedsAvailable) params.set("bedsAvailable", bedsAvailable);
+    if (selectedLocation) {
+      params.set("location", selectedLocation.display_name);
+      params.set("lat", selectedLocation.lat);
+      params.set("lon", selectedLocation.lon);
+    }
+
+    setSearchParams(params, { replace: true });
+  }, [
+    minPrice,
+    maxPrice,
+    facilityType,
+    bedsAvailable,
+    selectedLocation,
+    setSearchParams,
+  ]);
+
+  // Initialize location from URL params on component mount
+  useEffect(() => {
+    const locationFromUrl = searchParams.get("location");
+    const latFromUrl = searchParams.get("lat");
+    const lonFromUrl = searchParams.get("lon");
+
+    if (locationFromUrl && latFromUrl && lonFromUrl) {
+      const locationFromParams: NominatimResult = {
+        place_id: 0, // We don't have this from URL, but it's not critical
+        display_name: locationFromUrl,
+        lat: latFromUrl,
+        lon: lonFromUrl,
+        type: "saved", // Indicate this came from URL
+      };
+      setSelectedLocation(locationFromParams);
+      setSearchQuery(locationFromUrl);
+    }
+  }, [searchParams]); // Run when searchParams change
 
   useEffect(() => {
     // If the current searchQuery is the name of the selectedLocation,
@@ -134,43 +187,69 @@ export function FilterSearchModal() {
   };
 
   const handleSearch = () => {
-    // Implement search logic with all filters
-    console.log("Search triggered with:", {
-      location: selectedLocation,
-      minPrice,
-      maxPrice,
-      facilityType,
-      bedsAvailable,
-      searchQuery, // if no specific location is selected, use the query
+    // Create search parameters object
+    const searchFilters = {
+      location: selectedLocation?.display_name || searchQuery,
+      lat: selectedLocation?.lat || "",
+      lon: selectedLocation?.lon || "",
+      minPrice: minPrice || "",
+      maxPrice: maxPrice || "",
+      facilityType: facilityType || "",
+      bedsAvailable: bedsAvailable || "",
+    };
+
+    // Remove empty values
+    const filteredParams = Object.fromEntries(
+      Object.entries(searchFilters).filter(([, value]) => value !== ""),
+    );
+
+    console.log("Search triggered with:", filteredParams);
+
+    // Update URL with search parameters
+    const params = new URLSearchParams();
+    Object.entries(filteredParams).forEach(([key, value]) => {
+      params.set(key, value);
     });
+    setSearchParams(params);
+
     // Here you would typically make an API call to your backend
-    // with these filter parameters.
+    // with these filter parameters from the URL search params
+  };
+
+  const handleClearFilters = () => {
+    setMinPrice("");
+    setMaxPrice("");
+    setFacilityType("");
+    setBedsAvailable("");
+    setSelectedLocation(null);
+    setSearchQuery("");
+    setSearchParams(new URLSearchParams()); // Clear all search params
   };
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="flex items-center border rounded-lg px-3 py-2 bg-white shadow-sm max-w-full md:max-w-md cursor-pointer hover:shadow-md transition-shadow">
-          <span className="text-gray-400 mr-2">
+        <div className="flex max-w-full cursor-pointer items-center rounded-lg border bg-white px-3 py-2 shadow-sm transition-shadow hover:shadow-md md:max-w-md">
+          <span className="mr-2 text-gray-400">
             <Search size={20} />
           </span>
-          <div className="outline-none flex-1 text-base md:text-md bg-transparent text-gray-500">
+          <div className="md:text-md flex-1 bg-transparent text-base text-gray-500 outline-none">
             Search for a rental house...
           </div>
-          <span className="ml-2 px-2 py-1 rounded bg-gray-100 border text-gray-600 text-xs font-mono">
+          <span className="ml-2 rounded border bg-gray-100 px-2 py-1 font-mono text-xs text-gray-600">
             crtl f
           </span>
         </div>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-2xl z-[999999] min-h-[80vh] overflow-y-auto flex flex-col">
-        <DialogHeader className="text-center flex flex-col items-center border-b border-zinc-200 pb-4 mb-4 sticky top-0 z-10">
+      <DialogContent className="z-[999999] flex min-h-[80vh] flex-col overflow-y-auto sm:max-w-2xl">
+        <DialogHeader className="sticky top-0 z-10 mb-4 flex flex-col items-center border-b border-zinc-200 pb-4 text-center">
           <DialogTitle className="text-3xl">Filter Search</DialogTitle>
           <DialogDescription className="text-md">
             Tell us about your ideal rental/boarding house.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="px-4 py-2 flex-grow">
+        <div className="flex-grow px-4 py-2">
           <Command className="rounded-lg border">
             <CommandInput
               placeholder="Search for a location in San Jose, Occidental Mindoro..."
@@ -210,7 +289,7 @@ export function FilterSearchModal() {
         </div>
 
         {/* Filter options */}
-        <div className="my-6 px-4 space-y-6">
+        <div className="my-6 space-y-6 px-4">
           {/* Price Range */}
           <div>
             <Label className="text-md font-semibold">Price Range (PHP)</Label>
@@ -250,7 +329,7 @@ export function FilterSearchModal() {
               Type of Facility
             </Label>
             <Select value={facilityType} onValueChange={setFacilityType}>
-              <SelectTrigger id="facility-type" className="w-full mt-2">
+              <SelectTrigger id="facility-type" className="mt-2 w-full">
                 <SelectValue placeholder="Select facility type" />
               </SelectTrigger>
               <SelectContent position="popper" className="z-[1000000]">
@@ -280,11 +359,20 @@ export function FilterSearchModal() {
           </div>
         </div>
 
-        <DialogFooter className="flex justify-center items-center pt-4 border-t border-zinc-200 sticky bottom-0 bg-white z-10">
+        <DialogFooter className="sticky bottom-0 z-10 flex items-center justify-between border-t border-zinc-200 bg-white pt-4">
           <Button
-            type="button" // Changed from submit to button to prevent form submission if not intended
-            onClick={handleSearch} // Call handleSearch on click
-            className="bg-zinc-800 rounded self-center h-11"
+            type="button"
+            onClick={handleClearFilters}
+            variant="outline"
+            className="h-11 rounded"
+            size="lg"
+          >
+            Clear Filters
+          </Button>
+          <Button
+            type="button"
+            onClick={handleSearch}
+            className="h-11 rounded bg-zinc-800"
             size="lg"
           >
             Search

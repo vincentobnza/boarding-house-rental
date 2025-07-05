@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useLocation } from "react-router-dom";
 import NavbarImage from "@/assets/navbar-image.jpg";
-import { LogOutDialog } from "@/components/logout-modal";
+import { LogOutDialog } from "@/components/modals/logout-modal";
 import { useState } from "react";
 
 export default function LandlordLayout() {

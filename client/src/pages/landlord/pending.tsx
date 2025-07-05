@@ -1,11 +1,11 @@
 export default function Pending() {
   return (
-    <div className="w-full max-w-2xl mx-auto p-9 flex flex-col justify-center items-center text-center">
-      <h4 className="text-lg mb-4 py-1 px-8 bg-amber-50 text-amber-600 font-bold rounded-full">
+    <div className="mx-auto flex w-full max-w-2xl flex-col items-center justify-center p-9 text-center">
+      <h4 className="mb-4 rounded-full bg-amber-50 px-8 py-1 text-lg font-bold text-amber-600">
         Pending Approval
       </h4>
-      <h1 className="text-4xl font-bold mb-4">We're evaluating your profile</h1>
-      <p className="text-zinc-700 mb-10">
+      <h1 className="mb-4 text-4xl font-bold">We're evaluating your profile</h1>
+      <p className="mb-10 text-zinc-700">
         In order to make sure our community holds up a standard, we don't allow
         any profile to get in
       </p>
